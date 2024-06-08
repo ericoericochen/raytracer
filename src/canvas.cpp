@@ -34,7 +34,13 @@ public:
     int height() const { return m_height; }
     vector<vector<Color>> pixels() const { return m_pixels; }
 
+    const Color &pixel_at(int x, int y) const
+    {
+        return this->m_pixels[y][x];
+    }
+
     void write_pixel(int x, int y, Color color)
     {
+        this->m_pixels[y][x] = color;
     }
 };

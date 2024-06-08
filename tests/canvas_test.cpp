@@ -14,8 +14,13 @@ int main()
     {
         for (const Color &color : row)
         {
-            // assert(color == Color(0, 0, 0));
-            cout << color.to_string() << endl;
+            assert(color == Color(0, 0, 0));
+            // cout << color.to_string() << endl;
         }
     }
+
+    // writing pixel to canvas
+    Color red = Color(1, 0, 0);
+    c.write_pixel(2, 3, red);
+    assert(c.pixel_at(2, 3) == red);
 }
