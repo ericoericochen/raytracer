@@ -16,21 +16,9 @@ private:
     double e[4];
 
 public:
-    Tuple()
-    {
-        e[0] = 0.0;
-        e[1] = 0.0;
-        e[2] = 0.0;
-        e[3] = 0.0;
-    }
+    Tuple() : e{0, 0, 0, 0} {}
 
-    Tuple(double x, double y, double z, double w)
-    {
-        e[0] = x;
-        e[1] = y;
-        e[2] = z;
-        e[3] = w;
-    }
+    Tuple(double x, double y, double z, double w) : e{x, y, z, w} {}
 
     double x() const { return e[0]; }
     double y() const { return e[1]; }
@@ -41,12 +29,9 @@ public:
     bool is_vector() const { return w() == 0.0; }
 
     double operator[](int i) const { return e[i]; }
-    bool operator==(const Tuple &other)
+    bool operator==(const Tuple &other) const
     {
-        return equal(x(), other.x()) &&
-               equal(y(), other.y()) &&
-               equal(z(), other.z()) &&
-               equal(w(), other.w());
+        return equal(x(), other.x()) && equal(y(), other.y()) && equal(z(), other.z()) && equal(w(), other.w());
     }
 
     Tuple operator+(const Tuple &other)
