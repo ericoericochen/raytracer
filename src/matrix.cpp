@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include "utils.cpp"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ private:
     int m_dim;
 
 public:
+    Matrix() {}
     Matrix(int dim, vector<vector<double>> &values)
     {
         assert(values.size() == dim && values[0].size() == dim);
@@ -24,10 +26,57 @@ public:
 
     int dim() const { return m_dim; }
 
+    bool operator==(Matrix &other) const
+    {
+        if (this->m_dim != other.m_dim)
+            return false;
+
+        for (int i = 0; i < this->m_dim; i++)
+        {
+            for (int j = 0; j < this->m_dim; j++)
+            {
+                bool is_equal = equal(
+                    this->get(i, j), other.get(i, j));
+
+                if (!is_equal)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator!=(Matrix &other) const { return !(*this == other); }
+
     double get(int i, int j) const
     {
         assert(0 <= i && i < m_dim && 0 <= j && j < m_dim);
         return this->m_matrix[i][j];
+    }
+
+    Matrix matmul(const Matrix &other) const
+    {
+        assert(this->m_dim == other.m_dim);
+
+        vector<vector<double>> val = {};
+
+        for (int i = 0; i < this->m_dim; i++)
+        {
+            vector<double> row = {};
+            for (int j = 0; j < this->m_dim; j++)
+            {
+                double element = 0;
+                for (int k = 0; k < this->m_dim; k++)
+                {
+                    element += this->get(i, k) * other.get(k, j);
+                }
+                row.push_back(element);
+            }
+
+            val.push_back(row);
+        }
+
+        return Matrix(this->m_dim, val);
     }
 
     Matrix submatrix() const

@@ -54,5 +54,76 @@ int main()
     assert(m.get(1, 1) == -2);
     assert(m.get(2, 2) == 1);
 
+    // equality
+    Matrix A, B;
+    vector<vector<double>> a_val, b_val;
+
+    a_val = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 8, 7, 6},
+        {5, 4, 3, 2}};
+
+    b_val = a_val;
+    A = Matrix(4, a_val);
+    B = Matrix(4, b_val);
+
+    assert(A == B);
+
+    b_val = {
+        {2, 3, 4, 5},
+        {6, 7, 8, 9},
+        {8, 7, 6, 5},
+        {4, 3, 2, 1}};
+
+    B = Matrix(4, b_val);
+
+    assert(A != B);
+
+    // matrix multiplication
+
+    //     Scenario: Multiplying two matrices
+    // Given the following matrix A:
+    // | 1 | 2 | 3 | 4 |
+    // | 5 | 6 | 7 | 8 |
+    // | 9 | 8 | 7 | 6 |
+    // | 5 | 4 | 3 | 2 |
+    // And the following matrix B:
+    // | -2 | 1 | 2 | 3 |
+    // | 3 | 2 | 1 | -1 |
+    // | 4 | 3 | 6 | 5 |
+    // | 1 | 2 | 7 | 8 |
+    // Then A * B is the following 4x4 matrix:
+    // | 20| 22 | 50 | 48 |
+    // | 44| 54 | 114 | 108 |
+    // | 40| 58 | 110 | 102 |
+    // | 16| 26 | 46 | 42 |
+
+    a_val = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 8, 7, 6},
+        {5, 4, 3, 2}};
+    b_val = {
+        {-2, 1, 2, 3},
+        {3, 2, 1, -1},
+        {4, 3, 6, 5},
+        {1, 2, 7, 8}};
+
+    A = Matrix(4, a_val);
+    B = Matrix(4, b_val);
+
+    vector<vector<double>> c_val = {{20, 22, 50, 48},
+                                    {44, 54, 114, 108},
+                                    {40, 58, 110, 102},
+                                    {16, 26, 46, 42}};
+    Matrix answer = Matrix(4, c_val);
+
+    Matrix C = A.matmul(B);
+
+    cout << C.to_string() << endl;
+
+    assert(C == answer);
+
     return 0;
 }

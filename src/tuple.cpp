@@ -62,13 +62,7 @@ public:
     }
 
     Tuple operator/(double scalar) { return *this * (1 / scalar); }
-
-    double magnitude()
-    {
-        return sqrt(
-            x() * x() + y() * y() + z() * z() + w() * w());
-    }
-
+    double magnitude() { return sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w()); }
     Tuple normalize() { return *this / magnitude(); }
 
     double dot(const Tuple &other)
@@ -86,10 +80,9 @@ public:
     {
         assert(is_vector() && other.is_vector());
 
-        return Tuple(
-            y() * other.z() - z() * other.y(),
-            z() * other.x() - x() * other.z(),
-            x() * other.y() - y() * other.x(), 0.0);
+        return Tuple(y() * other.z() - z() * other.y(),
+                     z() * other.x() - x() * other.z(),
+                     x() * other.y() - y() * other.x(), 0.0);
     }
 };
 
