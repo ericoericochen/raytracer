@@ -34,12 +34,9 @@ public:
         return equal(x(), other.x()) && equal(y(), other.y()) && equal(z(), other.z()) && equal(w(), other.w());
     }
 
-    Tuple operator+(const Tuple &other)
+    Tuple operator+(const Tuple &other) const
     {
-        return Tuple(x() + other.x(),
-                     y() + other.y(),
-                     z() + other.z(),
-                     w() + other.w());
+        return Tuple(this->x() + other.x(), this->y() + other.y(), this->z() + other.z(), this->w() + other.w());
     }
 
     Tuple operator-() { return Tuple(-x(), -y(), -z(), -w()); }
