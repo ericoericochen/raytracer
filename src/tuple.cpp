@@ -70,11 +70,13 @@ public:
 
     Tuple operator*(double scalar)
     {
-        return Tuple(
-            x() * scalar,
-            y() * scalar,
-            z() * scalar,
-            w() * scalar);
+        return Tuple(this->x() * scalar, this->y() * scalar, this->z() * scalar, this->w() * scalar);
+    }
+
+    // Hadamard product
+    Tuple operator*(const Tuple &other)
+    {
+        return Tuple(this->x() * other.x(), this->y() * other.y(), this->z() * other.z(), this->w() * other.w());
     }
 
     Tuple operator/(double scalar) { return *this * (1 / scalar); }
