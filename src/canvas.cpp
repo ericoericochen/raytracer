@@ -1,5 +1,7 @@
 #include <vector>
 #include "color.cpp"
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -42,5 +44,24 @@ public:
     void write_pixel(int x, int y, Color color)
     {
         this->m_pixels[y][x] = color;
+    }
+
+    string to_ppm() const
+    {
+        string ppm = "P3\n" + std::to_string(m_width) + " " + std::to_string(m_height) + "\n255\n";
+
+        for (const vector<Color> &row : m_pixels)
+        {
+            for (const Color &color : row)
+            {
+                int r = (int)std::clamp(color.r(), 0.0, 255.0);
+                int g = (int)std::clamp(color.g(), 0.0, 255.0);
+                int b = (int)std::clamp(color.b(), 0.0, 255.0);
+
+                ppm += std::to_string(r) + " " + std::to_string(g) + " " + std::to_string(b) + "\n";
+            }
+        }
+
+        return ppm;
     }
 };

@@ -23,4 +23,8 @@ int main()
     Color red = Color(1, 0, 0);
     c.write_pixel(2, 3, red);
     assert(c.pixel_at(2, 3) == red);
+
+    string ppm = c.to_ppm();
+
+    cout << ppm << endl;
 }
