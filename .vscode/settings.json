@@ -4,6 +4,9 @@
     "string": "cpp",
     "cassert": "cpp",
     "vector": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "ostream": "cpp",
+    "new": "cpp",
+    "bitset": "cpp"
   }
 }

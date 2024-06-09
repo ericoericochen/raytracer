@@ -1,14 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <cstdlib>
-
-using namespace std;
-const double EPSILON = 0.00001;
-
-bool equal(double a, double b)
-{
-    return abs(a - b) < EPSILON;
-}
+#include "utils.cpp"
 
 class Tuple
 {
@@ -39,9 +32,9 @@ public:
         return Tuple(this->x() + other.x(), this->y() + other.y(), this->z() + other.z(), this->w() + other.w());
     }
 
-    Tuple operator-() { return Tuple(-x(), -y(), -z(), -w()); }
+    Tuple operator-() const { return Tuple(-x(), -y(), -z(), -w()); }
 
-    Tuple operator-(const Tuple &other)
+    Tuple operator-(const Tuple &other) const
     {
         return Tuple(
             x() - other.x(),
@@ -50,18 +43,18 @@ public:
             w() - other.w());
     }
 
-    Tuple operator*(double scalar)
+    Tuple operator*(double scalar) const
     {
         return Tuple(this->x() * scalar, this->y() * scalar, this->z() * scalar, this->w() * scalar);
     }
 
     // Hadamard product
-    Tuple operator*(const Tuple &other)
+    Tuple operator*(const Tuple &other) const
     {
         return Tuple(this->x() * other.x(), this->y() * other.y(), this->z() * other.z(), this->w() * other.w());
     }
 
-    Tuple operator/(double scalar) { return *this * (1 / scalar); }
+    Tuple operator/(double scalar) const { return *this * (1 / scalar); }
     double magnitude() { return sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w()); }
     Tuple normalize() { return *this / magnitude(); }
 
@@ -85,6 +78,12 @@ public:
                      x() * other.y() - y() * other.x(), 0.0);
     }
 };
+
+namespace primitive
+{
+    Tuple point(double x, double y, double z) { return Tuple(x, y, z, 1.0); }
+    Tuple vec(double x, double y, double z) { return Tuple(x, y, z, 0.0); }
+}
 
 Tuple create_tuple(double x, double y, double z, double w) { return Tuple(x, y, z, w); }
 Tuple create_point(double x, double y, double z) { return Tuple(x, y, z, 1.0); }
