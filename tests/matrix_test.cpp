@@ -1,6 +1,5 @@
 #include <cassert>
 #include <iostream>
-#include <vector>
 #include "../src/matrix.cpp"
 
 using namespace std;
@@ -244,6 +243,14 @@ int main()
                                  0.17778, 0.06667, -0.26667, 0.33333});
 
     assert(A.inverse() == B);
+
+    // matrix * inverse = identity
+    A = Matrix4x4(new double[16]{3, -9, 7, 3,
+                                 3, -8, 2, -9,
+                                 -4, 4, 4, 1,
+                                 -6, 5, -1, 1});
+
+    assert(A.inverse() * A == identity);
 
     return 0;
 }
