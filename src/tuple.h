@@ -1,32 +1,39 @@
+#ifndef TUPLE_H
+#define TUPLE_H
+
 class Tuple
 {
-private:
-    double e[4];
-
 public:
-    Tuple() {}
-    Tuple(double x, double y, double z, double w) {}
+    double x, y, z, w;
+    Tuple();
+    Tuple(double x, double y, double z, double w);
 
-    double x() const { return e[0]; }
-    double y() const { return e[1]; }
-    double z() const { return e[2]; }
-    double w() const { return e[3]; }
+    bool is_point() const;
+    bool is_vector() const;
 
-    bool is_point() const {}
-    bool is_vector() const {}
+    double operator[](int i) const;
+    bool operator==(const Tuple &other) const;
+    Tuple operator+(const Tuple &other) const;
+    Tuple operator-() const;
+    Tuple operator-(const Tuple &other) const;
+    Tuple operator*(double scalar) const;
+    Tuple operator*(const Tuple &other) const;
+    Tuple operator/(double scalar) const;
 
-    bool operator==(const Tuple &other) {}
-    Tuple operator+(const Tuple &other) {}
-    Tuple operator-() {}
-    Tuple operator-(const Tuple &other) {}
-    Tuple operator*(double scalar) {}
-    Tuple operator/(double scalar) {}
-
-    double magnitude() {}
-    Tuple normalize() {}
-    double dot(const Tuple &other) {}
-    Tuple cross(const Tuple &other) {}
+    double magnitude() const;
+    Tuple normalize() const;
+    double dot(const Tuple &other) const;
+    Tuple cross(const Tuple &other) const;
 };
 
-Tuple point(double x, double y, double z);
-Tuple vector(double x, double y, double z);
+namespace tuple
+{
+    Tuple tuple();
+    Tuple tuple(double x, double y, double z, double w);
+    Tuple point();
+    Tuple point(double x, double y, double z);
+    Tuple vec();
+    Tuple vec(double x, double y, double z);
+}
+
+#endif

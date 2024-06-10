@@ -1,9 +1,7 @@
-#include <cstdlib>
-
-using namespace std;
-const double EPSILON = 0.00001;
+#include "utils.h"
+#include <cmath>
 
 bool equal(double a, double b)
 {
-    return abs(a - b) < EPSILON;
+    return std::abs(a - b) < EPSILON;
 }
