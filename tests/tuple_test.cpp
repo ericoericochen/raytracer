@@ -1,7 +1,7 @@
 #include <cassert>
 #include <cmath>
-#include "../src/tuple.h"
-#include "../src/utils.h"
+#include "../include/tuple.h"
+#include "../include/utils.h"
 
 int main()
 {

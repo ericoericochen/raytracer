@@ -1,7 +1,7 @@
 #include <cmath>
 #include <cassert>
-#include "tuple.h"
-#include "utils.h"
+#include "../include/tuple.h"
+#include "../include/utils.h"
 
 Tuple::Tuple() : x(0), y(0), z(0), w(0) {}
 Tuple::Tuple(double x, double y, double z, double w) : x(x), y(y), z(z), w(w) {}
