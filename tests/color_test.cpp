@@ -1,5 +1,5 @@
-#include "../src/color.cpp"
 #include <cassert>
+#include "../include/color.h"
 
 int main()
 {
