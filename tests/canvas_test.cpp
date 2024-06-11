@@ -1,6 +1,6 @@
 #include <cassert>
 #include <iostream>
-#include "../src/canvas.cpp"
+#include "../include/canvas.h"
 
 using namespace std;
 
