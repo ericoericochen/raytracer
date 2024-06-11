@@ -1,6 +1,8 @@
 #ifndef TUPLE_H
 #define TUPLE_H
 
+#include <string>
+
 class Tuple
 {
 public:
@@ -35,6 +37,9 @@ namespace tuple
     Tuple point(double x, double y, double z);
     Tuple vec();
     Tuple vec(double x, double y, double z);
+
+    // double dot(Tuple &a, Tuple &b);
+    // Tuple cross(Tuple &a, Tuple &b);
 }
 
 #endif

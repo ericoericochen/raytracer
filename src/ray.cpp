@@ -1,21 +1,15 @@
-#include "tuple.cpp"
 #include <cassert>
+#include "../include/ray.h"
+#include "../include/tuple.h"
 
-class Ray
+Ray::Ray(Tuple origin, Tuple direction)
 {
-public:
-    Tuple origin;
-    Tuple direction;
+    assert(origin.is_point() && direction.is_vector());
+    this->origin = origin;
+    this->direction = direction;
+}
 
-    Ray(Tuple origin, Tuple direction)
-    {
-        assert(origin.is_point() && direction.is_vector());
-        this->origin = origin;
-        this->direction = direction;
-    }
-
-    Tuple position_at(double t) const
-    {
-        return this->origin + this->direction * t;
-    }
-};
+Tuple Ray::position_at(double t) const
+{
+    return this->origin + this->direction * t;
+}

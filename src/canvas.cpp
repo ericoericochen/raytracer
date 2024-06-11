@@ -4,8 +4,6 @@
 #include "../include/canvas.h"
 #include "../include/color.h"
 
-using namespace std;
-
 Canvas::Canvas(int width, int height)
 {
     m_width = width;
@@ -25,10 +23,10 @@ Canvas::Canvas(int width, int height)
     }
 }
 
-vector<Color> Canvas::operator[](int i) const { return this->m_pixels[i]; }
+std::vector<Color> Canvas::operator[](int i) const { return this->m_pixels[i]; }
 int Canvas::width() const { return m_width; }
 int Canvas::height() const { return m_height; }
-vector<vector<Color>> Canvas::pixels() const { return m_pixels; }
+std::vector<std::vector<Color>> Canvas::pixels() const { return m_pixels; }
 
 const Color &Canvas::pixel_at(int x, int y) const
 {
@@ -40,7 +38,7 @@ void Canvas::write_pixel(int x, int y, Color color)
     this->m_pixels[y][x] = color;
 }
 
-string Canvas::to_ppm() const
+std::string Canvas::to_ppm() const
 {
     string ppm = "P3\n" + std::to_string(m_width) + " " + std::to_string(m_height) + "\n255\n";
 

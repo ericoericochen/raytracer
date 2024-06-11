@@ -2,21 +2,20 @@
 #define INTERSECTION_H
 
 #include <vector>
-#include "sphere.h"
 
-using namespace std;
+class Sphere;
 
 class Intersection
 {
 
 private:
-    Sphere &m_object;
-    vector<double> m_hits;
+    Sphere *m_object;
+    std::vector<double> m_hits;
 
 public:
-    Intersection(Sphere &object, vector<double> hits);
+    Intersection(Sphere *object, std::vector<double> hits);
     int count() const;
-    Sphere &object() const;
+    Sphere *object() const;
     double operator[](int i) const;
 };
 
