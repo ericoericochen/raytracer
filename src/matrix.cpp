@@ -1,237 +1,225 @@
-#include <vector>
 #include <cassert>
-#include <string>
 #include <sstream>
-#include <iostream>
-#include <cmath>
-#include "tuple.cpp"
+#include "../include/matrix.h"
+#include "../include/utils.h"
+#include "../include/tuple.h"
 
-using namespace std;
-
-class Matrix
+Matrix::Matrix(int dim) : m_dim(dim) { m_matrix = new double[dim * dim]; }
+Matrix::Matrix(int dim, double *values)
 {
+    assert(dim == 2 || dim == 3 || dim == 4);
 
-private:
-    int m_dim;
-    double *m_matrix;
-
-public:
-    Matrix(int dim = 4) : m_dim(dim) { m_matrix = new double[dim * dim]; }
-    Matrix(int dim, double *values)
+    m_matrix = new double[dim * dim];
+    for (int i = 0; i < dim * dim; i++)
     {
-        assert(dim == 2 || dim == 3 || dim == 4);
-
-        m_matrix = new double[dim * dim];
-        for (int i = 0; i < dim * dim; i++)
-        {
-            m_matrix[i] = values[i];
-        }
-
-        m_dim = dim;
+        m_matrix[i] = values[i];
     }
 
-    int dim() const { return m_dim; }
+    m_dim = dim;
+}
+Matrix::~Matrix() { delete[] m_matrix; }
 
-    bool operator==(Matrix &other) const
+int Matrix::dim() const { return m_dim; }
+
+bool Matrix::operator==(Matrix &other) const
+{
+    if (this->m_dim != other.m_dim)
     {
-        if (this->m_dim != other.m_dim)
-        {
-            return false;
-        }
+        return false;
+    }
 
-        for (int i = 0; i < this->m_dim; i++)
+    for (int i = 0; i < this->m_dim; i++)
+    {
+        for (int j = 0; j < this->m_dim; j++)
         {
-            for (int j = 0; j < this->m_dim; j++)
+            bool is_equal = equal(
+                this->get(i, j), other.get(i, j));
+
+            if (!is_equal)
             {
-                bool is_equal = equal(
-                    this->get(i, j), other.get(i, j));
-
-                if (!is_equal)
-                {
-                    return false;
-                }
+                return false;
             }
         }
-
-        return true;
     }
 
-    bool operator!=(Matrix &other) const { return !(*this == other); }
+    return true;
+}
 
-    double get(int i, int j) const
-    {
-        assert(0 <= i && i < m_dim && 0 <= j && j < m_dim);
-        return m_matrix[i * m_dim + j];
-    }
+bool Matrix::operator!=(Matrix &other) const { return !(*this == other); }
 
-    void set(int i, int j, double val)
-    {
-        assert(0 <= i && i < m_dim && 0 <= j && j < m_dim);
-        m_matrix[i * m_dim + j] = val;
-    }
+double Matrix::get(int i, int j) const
+{
+    assert(0 <= i && i < m_dim && 0 <= j && j < m_dim);
+    return m_matrix[i * m_dim + j];
+}
 
-    Matrix T() const
+void Matrix::set(int i, int j, double val)
+{
+    assert(0 <= i && i < m_dim && 0 <= j && j < m_dim);
+    m_matrix[i * m_dim + j] = val;
+}
+
+Matrix Matrix::T() const
+{
+    Matrix matrix = Matrix(m_dim);
+    for (int i = 0; i < m_dim; i++)
     {
-        Matrix matrix = Matrix(m_dim);
-        for (int i = 0; i < m_dim; i++)
+        for (int j = 0; j < m_dim; j++)
         {
-            for (int j = 0; j < m_dim; j++)
+            matrix.set(i, j, this->get(j, i));
+        }
+    }
+
+    return matrix;
+}
+
+Matrix Matrix::operator*(const Matrix &other) const
+{
+    assert(this->m_dim == other.m_dim);
+
+    double val[m_dim * m_dim];
+    for (int i = 0; i < this->m_dim; i++)
+    {
+        for (int j = 0; j < this->m_dim; j++)
+        {
+            double element = 0;
+            for (int k = 0; k < this->m_dim; k++)
             {
-                matrix.set(i, j, this->get(j, i));
+                element += this->get(i, k) * other.get(k, j);
+            }
+            val[i * m_dim + j] = element;
+        }
+    }
+
+    return Matrix(this->m_dim, val);
+}
+
+Tuple Matrix::operator*(const Tuple &other) const
+{
+    assert(this->m_dim == 4);
+    double val[4] = {0, 0, 0, 0};
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            val[i] += this->get(i, j) * other[j];
+        }
+    }
+
+    return tuple::tuple(val[0], val[1], val[2], val[3]);
+}
+
+double Matrix::determinant() const
+{
+    if (m_dim == 2)
+    {
+        return this->get(0, 0) * this->get(1, 1) - this->get(0, 1) * this->get(1, 0);
+    }
+    else
+    {
+        int i = 0;
+        double result = 0;
+        // multiply value at (i, j) by its cofactor
+        for (int j = 0; j < m_dim; j++)
+        {
+            result += this->get(i, j) * this->cofactor(i, j);
+        }
+
+        return result;
+    }
+}
+
+bool Matrix::is_invertible() const { return this->determinant() != 0; }
+
+Matrix Matrix::submatrix(int row, int col) const
+{
+    assert(m_dim == 4 || m_dim == 3);
+
+    Matrix matrix = m_dim == 4 ? Matrix(3) : Matrix(2);
+    for (int i = 0; i < m_dim; i++)
+    {
+        for (int j = 0; j < m_dim; j++)
+        {
+            if (i == row || j == col)
+                continue;
+
+            int r = i > row ? i - 1 : i;
+            int c = j > col ? j - 1 : j;
+            matrix.set(r, c, this->get(i, j));
+        }
+    }
+
+    return matrix;
+}
+
+double Matrix::minor(int i, int j) const
+{
+    assert(m_dim == 3 || m_dim == 4);
+    return this->submatrix(i, j).determinant();
+}
+
+double Matrix::cofactor(int i, int j) const
+{
+    double sign = (i + j) % 2 == 0 ? 1 : -1;
+    return sign * this->minor(i, j);
+}
+
+Matrix Matrix::inverse() const
+{
+    // inverse = transpose cofactor matrix / det
+    double det = this->determinant();
+    Matrix inverse_matrix = Matrix(m_dim);
+    for (int i = 0; i < m_dim; i++)
+    {
+        for (int j = 0; j < m_dim; j++)
+        {
+            // transpose cofactor / det
+            inverse_matrix.set(i, j, this->cofactor(j, i) / det);
+        }
+    }
+
+    return inverse_matrix;
+}
+
+std::string Matrix::to_string() const
+{
+    // get max width of a cell
+    int max_length = 0;
+    for (int i = 0; i < m_dim; i++)
+    {
+        for (int j = 0; j < m_dim; j++)
+        {
+            double value = this->get(i, j);
+            std::string value_str = std::to_string(value);
+            int length = value_str.length();
+
+            if (length > max_length)
+            {
+                max_length = length;
             }
         }
-
-        return matrix;
     }
 
-    Matrix operator*(const Matrix &other) const
+    std::stringstream ss;
+    for (int i = 0; i < m_dim; i++)
     {
-        assert(this->m_dim == other.m_dim);
-
-        double val[m_dim * m_dim];
-        for (int i = 0; i < this->m_dim; i++)
+        for (int j = 0; j < m_dim; j++)
         {
-            for (int j = 0; j < this->m_dim; j++)
+            double value = this->get(i, j);
+            std::string value_str = std::to_string(value);
+            int remaining_space = max_length - value_str.length();
+            std::string space(remaining_space, ' ');
+
+            if (j == 0)
             {
-                double element = 0;
-                for (int k = 0; k < this->m_dim; k++)
-                {
-                    element += this->get(i, k) * other.get(k, j);
-                }
-                val[i * m_dim + j] = element;
+                ss << "|";
             }
+            ss << space << value_str << "|";
         }
-
-        return Matrix(this->m_dim, val);
+        ss << "\n";
     }
-
-    Tuple operator*(const Tuple &other) const
-    {
-        assert(this->m_dim == 4);
-        double val[4] = {0, 0, 0, 0};
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                val[i] += this->get(i, j) * other[j];
-            }
-        }
-
-        return create_tuple(val[0], val[1], val[2], val[3]);
-    }
-
-    double determinant() const
-    {
-        if (m_dim == 2)
-        {
-            return this->get(0, 0) * this->get(1, 1) - this->get(0, 1) * this->get(1, 0);
-        }
-        else
-        {
-            int i = 0;
-            double result = 0;
-            // multiply value at (i, j) by its cofactor
-            for (int j = 0; j < m_dim; j++)
-            {
-                result += this->get(i, j) * this->cofactor(i, j);
-            }
-
-            return result;
-        }
-    }
-
-    bool is_invertible() const { return this->determinant() != 0; }
-
-    Matrix submatrix(int row, int col) const
-    {
-        assert(m_dim == 4 || m_dim == 3);
-
-        Matrix matrix = m_dim == 4 ? Matrix(3) : Matrix(2);
-        for (int i = 0; i < m_dim; i++)
-        {
-            for (int j = 0; j < m_dim; j++)
-            {
-                if (i == row || j == col)
-                    continue;
-
-                int r = i > row ? i - 1 : i;
-                int c = j > col ? j - 1 : j;
-                matrix.set(r, c, this->get(i, j));
-            }
-        }
-
-        return matrix;
-    }
-
-    double minor(int i, int j) const
-    {
-        assert(m_dim == 3 || m_dim == 4);
-        return this->submatrix(i, j).determinant();
-    }
-
-    double cofactor(int i, int j) const
-    {
-        double sign = (i + j) % 2 == 0 ? 1 : -1;
-        return sign * this->minor(i, j);
-    }
-
-    Matrix inverse() const
-    {
-        // inverse = transpose cofactor matrix / det
-        double det = this->determinant();
-        Matrix inverse_matrix = Matrix(m_dim);
-        for (int i = 0; i < m_dim; i++)
-        {
-            for (int j = 0; j < m_dim; j++)
-            {
-                // transpose cofactor / det
-                inverse_matrix.set(i, j, this->cofactor(j, i) / det);
-            }
-        }
-
-        return inverse_matrix;
-    }
-
-    string to_string() const
-    {
-        // get max width of a cell
-        int max_length = 0;
-        for (int i = 0; i < m_dim; i++)
-        {
-            for (int j = 0; j < m_dim; j++)
-            {
-                double value = this->get(i, j);
-                string value_str = std::to_string(value);
-                int length = value_str.length();
-
-                if (length > max_length)
-                {
-                    max_length = length;
-                }
-            }
-        }
-
-        stringstream ss;
-        for (int i = 0; i < m_dim; i++)
-        {
-            for (int j = 0; j < m_dim; j++)
-            {
-                double value = this->get(i, j);
-                string value_str = std::to_string(value);
-                int remaining_space = max_length - value_str.length();
-                string space(remaining_space, ' ');
-
-                if (j == 0)
-                {
-                    ss << "|";
-                }
-                ss << space << value_str << "|";
-            }
-            ss << "\n";
-        }
-        return ss.str();
-    }
-};
+    return ss.str();
+}
 
 Matrix Matrix4x4(double vals[16]) { return Matrix(4, vals); }
 Matrix Matrix4x4() { return Matrix(4); }
