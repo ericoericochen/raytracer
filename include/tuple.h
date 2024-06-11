@@ -24,6 +24,7 @@ public:
     Tuple normalize() const;
     double dot(const Tuple &other) const;
     Tuple cross(const Tuple &other) const;
+    std::string to_string() const;
 };
 
 namespace tuple

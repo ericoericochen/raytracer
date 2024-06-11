@@ -1,5 +1,6 @@
 #include <cmath>
 #include <cassert>
+#include <string>
 #include "../include/tuple.h"
 #include "../include/utils.h"
 
@@ -65,6 +66,11 @@ Tuple Tuple::cross(const Tuple &other) const
     return Tuple(this->y * other.z - this->z * other.y,
                  this->z * other.x - this->x * other.z,
                  this->x * other.y - this->y * other.x, 0.0);
+}
+
+std::string Tuple::to_string() const
+{
+    return "Tuple(" + std::to_string(this->x) + ", " + std::to_string(this->y) + ", " + std::to_string(this->z) + ", " + std::to_string(this->w) + ")";
 }
 
 namespace tuple
