@@ -13,7 +13,7 @@ Canvas::Canvas(int width, int height)
 
     for (int j = 0; j < height; j++)
     {
-        vector<Color> row = {};
+        std::vector<Color> row = {};
         for (int i = 0; i < width; i++)
         {
             Color color = Color(0, 0, 0);
@@ -40,9 +40,9 @@ void Canvas::write_pixel(int x, int y, Color color)
 
 std::string Canvas::to_ppm() const
 {
-    string ppm = "P3\n" + std::to_string(m_width) + " " + std::to_string(m_height) + "\n255\n";
+    std::string ppm = "P3\n" + std::to_string(m_width) + " " + std::to_string(m_height) + "\n255\n";
 
-    for (const vector<Color> &row : m_pixels)
+    for (const std::vector<Color> &row : m_pixels)
     {
         for (const Color &color : row)
         {

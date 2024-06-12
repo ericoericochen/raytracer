@@ -16,9 +16,4 @@ public:
     std::vector<Intersection> intersects(Ray &ray);
 };
 
-namespace sphere
-{
-    std::vector<Intersection> intersects(Sphere &sphere, Ray &ray);
-}
-
 #endif

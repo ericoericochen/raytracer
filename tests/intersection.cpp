@@ -16,15 +16,15 @@ int main()
     s = Sphere();
     auto i1 = Intersection(&s, 1);
     auto i2 = Intersection(&s, 2);
-    std::vector<Intersection *> xs = {&i1, &i2};
+    std::vector<Intersection> xs = {i1, i2};
     auto i_ = intersection::hit(xs);
 
-    assert(i_ == &i1);
+    assert(&i_ == &i1);
 
     s = Sphere();
     i1 = Intersection(&s, -1);
     i2 = Intersection(&s, 1);
-    xs = {&i1, &i2};
+    xs = {i1, i2};
     i_ = intersection::hit(xs);
 
     assert(i_ == &i2);
