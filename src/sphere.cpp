@@ -3,7 +3,7 @@
 #include "../include/sphere.h"
 #include "../include/ray.h"
 #include "../include/tuple.h"
-// #include "../include/intersection.h"
+#include "../include/intersection.h"
 
 Sphere::Sphere() {}
 Sphere::Sphere(Tuple origin, double radius)
@@ -15,7 +15,7 @@ Sphere::Sphere(Tuple origin, double radius)
 
 namespace sphere
 {
-    std::vector<double> intersects(Sphere &sphere, Ray &ray)
+    std::vector<Intersection> intersects(Sphere &sphere, Ray &ray)
     {
         Tuple sphere_to_ray = ray.origin - sphere.origin;
         double a = ray.direction.dot(ray.direction);
@@ -24,7 +24,7 @@ namespace sphere
 
         double discriminant = b * b - 4 * a * c;
 
-        std::vector<double> intersections = {};
+        std::vector<Intersection> intersections = {};
 
         // no intersections
         if (discriminant < 0)
@@ -36,8 +36,8 @@ namespace sphere
         auto x1 = (-b - sqrt(discriminant)) / (2 * a);
         auto x2 = (-b + sqrt(discriminant)) / (2 * a);
 
-        intersections.push_back(x1);
-        intersections.push_back(x2);
+        intersections.push_back(Intersection(&sphere, x1));
+        intersections.push_back(Intersection(&sphere, x2));
 
         return intersections;
     }

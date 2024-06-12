@@ -4,7 +4,7 @@
 #include <vector>
 #include "tuple.h"
 #include "ray.h"
-// #include "intersection.h"
+#include "intersection.h"
 
 class Sphere
 {
@@ -14,12 +14,11 @@ public:
 
     Sphere();
     Sphere(Tuple origin, double radius);
-    // Intersection intersects(Ray &ray);
 };
 
 namespace sphere
 {
-    std::vector<double> intersects(Sphere &sphere, Ray &ray);
+    std::vector<Intersection> intersects(Sphere &sphere, Ray &ray);
 }
 
 #endif

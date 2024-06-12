@@ -8,15 +8,12 @@ class Sphere;
 class Intersection
 {
 
-private:
-    Sphere *m_object;
-    std::vector<double> m_hits;
+public:
+    Sphere *object;
+    int t;
 
 public:
-    Intersection(Sphere *object, std::vector<double> hits);
-    int count() const;
-    Sphere *object() const;
-    double operator[](int i) const;
+    Intersection(Sphere *object, int t);
 };
 
 #endif
