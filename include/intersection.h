@@ -10,10 +10,15 @@ class Intersection
 
 public:
     Sphere *object;
-    int t;
+    double t;
 
 public:
-    Intersection(Sphere *object, int t);
+    Intersection(Sphere *object, double t);
 };
+
+namespace intersection
+{
+    const Intersection *hit(std::vector<Intersection *> &intersections);
+}
 
 #endif
