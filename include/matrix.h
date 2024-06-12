@@ -4,8 +4,6 @@
 #include <string>
 #include "tuple.h"
 
-// using namespace std;
-
 class Matrix
 {
 
@@ -17,6 +15,8 @@ public:
     Matrix(int dim = 4);
     Matrix(int dim, double *values);
     ~Matrix();
+    Matrix(const Matrix &other);
+    Matrix &operator=(const Matrix &other);
     int dim() const;
     bool operator==(Matrix &other) const;
     bool operator!=(Matrix &other) const;

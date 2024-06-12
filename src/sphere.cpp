@@ -6,40 +6,35 @@
 #include "../include/intersection.h"
 
 Sphere::Sphere() {}
-Sphere::Sphere(Tuple origin, double radius)
-{
-    assert(origin.is_point() && radius > 0);
-    this->origin = origin;
-    this->radius = radius;
-}
 
-namespace sphere
+void Sphere::set_transform(const Matrix &matrix) { this->transform = matrix; }
+
+std::vector<Intersection> Sphere::intersects(Ray &ray)
 {
-    std::vector<Intersection> intersects(Sphere &sphere, Ray &ray)
+    // apply the inverse transform of sphere to the ray
+    auto inv_transform = this->transform.inverse();
+    Ray transformed_ray = ray::transform(ray, inv_transform);
+
+    Tuple sphere_to_ray = transformed_ray.origin - tuple::point(0, 0, 0); // ray origin - sphere origin
+    double a = transformed_ray.direction.dot(transformed_ray.direction);
+    double b = 2.0 * transformed_ray.direction.dot(sphere_to_ray);
+    double c = sphere_to_ray.dot(sphere_to_ray) - 1; // -radius^2
+    double discriminant = b * b - 4 * a * c;
+
+    std::vector<Intersection> intersections = {};
+
+    // no intersections
+    if (discriminant < 0)
     {
-        Tuple sphere_to_ray = ray.origin - sphere.origin;
-        double a = ray.direction.dot(ray.direction);
-        double b = 2.0 * ray.direction.dot(sphere_to_ray);
-        double c = sphere_to_ray.dot(sphere_to_ray) - sphere.radius * sphere.radius;
-
-        double discriminant = b * b - 4 * a * c;
-
-        std::vector<Intersection> intersections = {};
-
-        // no intersections
-        if (discriminant < 0)
-        {
-            return intersections;
-        }
-
-        // calculate the two intersections
-        auto x1 = (-b - sqrt(discriminant)) / (2 * a);
-        auto x2 = (-b + sqrt(discriminant)) / (2 * a);
-
-        intersections.push_back(Intersection(&sphere, x1));
-        intersections.push_back(Intersection(&sphere, x2));
-
         return intersections;
     }
 
+    // calculate the two intersections
+    auto x1 = (-b - sqrt(discriminant)) / (2 * a);
+    auto x2 = (-b + sqrt(discriminant)) / (2 * a);
+
+    intersections.push_back(Intersection(this, x1));
+    intersections.push_back(Intersection(this, x2));
+
+    return intersections;
 }

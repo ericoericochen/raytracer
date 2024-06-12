@@ -1,7 +1,8 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef RAY_H
+#define RAY_H
 
 #include "tuple.h"
+#include "matrix.h"
 
 class Ray
 {
@@ -11,5 +12,10 @@ public:
     Ray(Tuple origin, Tuple direction);
     Tuple position_at(double t) const;
 };
+
+namespace ray
+{
+    Ray transform(Ray &ray, Matrix &matrix);
+}
 
 #endif

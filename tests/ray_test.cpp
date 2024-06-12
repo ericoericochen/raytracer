@@ -2,6 +2,7 @@
 #include "../include/tuple.h"
 #include "../include/ray.h"
 #include "../include/sphere.h"
+#include "../include/matrix.h"
 
 int main()
 {
@@ -18,34 +19,16 @@ int main()
     assert(r.position_at(-1) == tuple::point(1, 3, 4));
     assert(r.position_at(2.5) == tuple::point(4.5, 3, 4));
 
-    // ray sphere intersection
-    Sphere s;
+    // ray transform
+    r = Ray(tuple::point(1, 2, 3), tuple::vec(0, 1, 0));
+    Matrix m = matrix::translation(3, 4, 5);
+    Ray r2 = ray::transform(r, m);
 
-    origin = tuple::point(0, 0, -5);
-    direction = tuple::vec(0, 0, 1);
-    r = Ray(origin, direction);
-    s = Sphere();
-    // Intersection intersection = s.intersects(r);
-    // assert(intersection.count() == 2 && intersection[0] == 4.0 && intersection[1] == 6.0);
+    assert(r2.origin == tuple::point(4, 6, 8) && r2.direction == tuple::vec(0, 1, 0));
 
-    // origin = tuple::point(0, 1, -5);
-    // direction = tuple::vec(0, 0, 1);
-    // r = Ray(origin, direction);
-    // s = Sphere();
-    // Intersection intersection = s.intersects(r);
-    // assert(intersection.count() == 2 && intersection[0] == 5.0 && intersection[1] == 5.0);
+    r = Ray(tuple::point(1, 2, 3), tuple::vec(0, 1, 0));
+    m = matrix::scaling(2, 3, 4);
+    r2 = ray::transform(r, m);
 
-    // origin = tuple::point(0, 2, -5);
-    // direction = tuple::vec(0, 0, 1);
-    // r = Ray(origin, direction);
-    // s = Sphere();
-    // Intersection intersection = s.intersects(r);
-    // assert(intersection.count() == 0);
-
-    // origin = tuple::point(0, 0, 0);
-    // direction = tuple::vec(0, 0, 1);
-    // r = Ray(origin, direction);
-    // s = Sphere();
-    // Intersection intersection = s.intersects(r);
-    // assert(intersection.count() == 2 && intersection[0] == -1.0 && intersection[1] == 1.0);
+    assert(r2.origin == tuple::point(2, 6, 12) && r2.direction == tuple::vec(0, 3, 0));
 }

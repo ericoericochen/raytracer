@@ -5,15 +5,15 @@
 #include "tuple.h"
 #include "ray.h"
 #include "intersection.h"
+#include "matrix.h"
 
 class Sphere
 {
 public:
-    Tuple origin = tuple::point(0, 0, 0);
-    double radius = 1.0;
-
+    Matrix transform = matrix::eye(4);
     Sphere();
-    Sphere(Tuple origin, double radius);
+    void set_transform(const Matrix &matrix);
+    std::vector<Intersection> intersects(Ray &ray);
 };
 
 namespace sphere

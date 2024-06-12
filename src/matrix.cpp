@@ -19,6 +19,35 @@ Matrix::Matrix(int dim, double *values)
 }
 Matrix::~Matrix() { delete[] m_matrix; }
 
+Matrix::Matrix(const Matrix &other)
+{
+    this->m_dim = other.dim();
+    m_matrix = new double[this->m_dim * this->m_dim];
+
+    for (int i = 0; i < this->m_dim * this->m_dim; i++)
+    {
+        m_matrix[i] = other.m_matrix[i];
+    }
+}
+
+Matrix &Matrix::operator=(const Matrix &other)
+{
+    if (this != &other)
+    {
+        delete[] m_matrix;
+
+        this->m_dim = other.dim();
+        m_matrix = new double[this->m_dim * this->m_dim];
+
+        for (int i = 0; i < this->m_dim * this->m_dim; i++)
+        {
+            m_matrix[i] = other.m_matrix[i];
+        }
+    }
+
+    return *this;
+}
+
 int Matrix::dim() const { return m_dim; }
 
 bool Matrix::operator==(Matrix &other) const
