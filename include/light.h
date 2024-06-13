@@ -4,6 +4,7 @@
 
 #include "tuple.h"
 #include "color.h"
+#include "material.h"
 
 class PointLight
 {
@@ -18,5 +19,7 @@ namespace light
 {
     PointLight point_light(Tuple position, Color intensity);
 }
+
+Color lighting(Material material, PointLight light, Tuple position, Tuple eye, Tuple normal);
 
 #endif

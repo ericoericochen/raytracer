@@ -82,7 +82,7 @@ namespace tuple
     Tuple vec() { return vec(0, 0, 0); }
     Tuple vec(double x, double y, double z) { return Tuple(x, y, z, 0.0); }
 
-    Tuple reflect(Tuple &in, Tuple &normal)
+    Tuple reflect(const Tuple &in, const Tuple &normal)
     {
         return in - normal * 2 * in.dot(normal);
     }

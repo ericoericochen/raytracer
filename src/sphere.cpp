@@ -4,8 +4,10 @@
 #include "../include/ray.h"
 #include "../include/tuple.h"
 #include "../include/intersection.h"
+#include "../include/material.h"
 
 Sphere::Sphere() {}
+Sphere::Sphere(Material material) : material(material) {}
 
 void Sphere::set_transform(const Matrix &matrix) { this->transform = matrix; }
 

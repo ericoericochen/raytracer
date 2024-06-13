@@ -46,9 +46,9 @@ std::string Canvas::to_ppm() const
     {
         for (const Color &color : row)
         {
-            int r = (int)std::clamp(color.r(), 0.0, 255.0);
-            int g = (int)std::clamp(color.g(), 0.0, 255.0);
-            int b = (int)std::clamp(color.b(), 0.0, 255.0);
+            int r = (int)std::clamp(color.r() * 255.999, 0.0, 255.0);
+            int g = (int)std::clamp(color.g() * 255.999, 0.0, 255.0);
+            int b = (int)std::clamp(color.b() * 255.999, 0.0, 255.0);
 
             ppm += std::to_string(r) + " " + std::to_string(g) + " " + std::to_string(b) + "\n";
         }

@@ -15,6 +15,11 @@ public:
     const double &b() const;
     const double &g() const;
 
+    // Color operator*(const Tuple &other) const;
+    Color operator*(const Color &other) const;
+    Color operator*(const double scalar) const;
+    Color operator+(const Color &other) const;
+
     std::string to_string() const;
 };
 
