@@ -13,6 +13,8 @@ int main()
     Tuple ray_origin = tuple::point(0, 0, -5);
     double pixel_size = wall_size / width;
     Sphere sphere = Sphere();
+    // sphere.transform = matrix::scaling(1, 0.5, 1);
+    sphere.transform = matrix::rotation_z(M_PI / 4) * matrix::scaling(1, 0.5, 1);
 
     for (int y = 0; y < height; y++)
     {
@@ -24,7 +26,7 @@ int main()
 
             // cast ray into the scene
             Tuple pos = tuple::point(world_x, world_y, wall_z);
-            Tuple direction = pos - ray_origin;
+            Tuple direction = (pos - ray_origin).normalize();
             Ray ray = Ray(ray_origin, direction);
 
             // check intersection

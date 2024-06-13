@@ -80,5 +80,18 @@ int main()
     assert(a.cross(b) == tuple::vec(-1, 2, -1));
     assert(b.cross(a) == tuple::vec(1, -2, 1));
 
+    // reflection
+    auto v = tuple::vec(1, -1, 0);
+    auto n = tuple::vec(0, 1, 0);
+    auto r = tuple::reflect(v, n);
+
+    assert(r == tuple::vec(1, 1, 0));
+
+    v = tuple::vec(0, -1, 0);
+    n = tuple::vec(sqrt(2) / 2, sqrt(2) / 2, 0);
+    r = tuple::reflect(v, n);
+
+    assert(r == tuple::vec(1, 0, 0));
+
     return 0;
 }

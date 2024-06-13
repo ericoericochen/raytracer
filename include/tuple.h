@@ -38,6 +38,8 @@ namespace tuple
     Tuple vec();
     Tuple vec(double x, double y, double z);
 
+    Tuple reflect(Tuple &in, Tuple &normal);
+
     // double dot(Tuple &a, Tuple &b);
     // Tuple cross(Tuple &a, Tuple &b);
 }

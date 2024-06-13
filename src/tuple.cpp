@@ -81,4 +81,9 @@ namespace tuple
     Tuple point(double x, double y, double z) { return Tuple(x, y, z, 1.0); }
     Tuple vec() { return vec(0, 0, 0); }
     Tuple vec(double x, double y, double z) { return Tuple(x, y, z, 0.0); }
+
+    Tuple reflect(Tuple &in, Tuple &normal)
+    {
+        return in - normal * 2 * in.dot(normal);
+    }
 }

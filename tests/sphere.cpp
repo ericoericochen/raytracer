@@ -57,4 +57,26 @@ int main()
     s.set_transform(matrix::translation(5, 0, 0));
     xs = s.intersects(r);
     assert(xs.size() == 0);
+
+    // normals
+    s = Sphere();
+    auto n = s.normal_at(tuple::point(1, 0, 0));
+    assert(n == tuple::vec(1, 0, 0));
+
+    n = s.normal_at(tuple::point(0, 1, 0));
+    assert(n == tuple::vec(0, 1, 0));
+
+    n = s.normal_at(tuple::point(0, 0, 1));
+    assert(n == tuple::vec(0, 0, 1));
+
+    n = s.normal_at(tuple::point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+    assert(n == tuple::vec(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+
+    s.set_transform(matrix::translation(0, 1, 0));
+    n = s.normal_at(tuple::point(0, 1.70711, -0.70711));
+    assert(n == tuple::vec(0, 0.70711, -0.70711));
+
+    s.set_transform(matrix::scaling(1, 0.5, 1) * matrix::rotation_z(M_PI / 5));
+    n = s.normal_at(tuple::point(0, sqrt(2) / 2, -sqrt(2) / 2));
+    assert(n == tuple::vec(0, 0.97014, -0.24254));
 }

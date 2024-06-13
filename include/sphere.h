@@ -14,6 +14,7 @@ public:
     Sphere();
     void set_transform(const Matrix &matrix);
     std::vector<Intersection> intersects(Ray &ray);
+    Tuple normal_at(const Tuple &world_point) const;
 };
 
 #endif

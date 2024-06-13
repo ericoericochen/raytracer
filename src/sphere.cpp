@@ -38,3 +38,13 @@ std::vector<Intersection> Sphere::intersects(Ray &ray)
 
     return intersections;
 }
+
+Tuple Sphere::normal_at(const Tuple &world_point) const
+{
+    auto object_point = this->transform.inverse() * world_point;
+    auto object_normal = object_point - tuple::point(0, 0, 0);
+    Tuple world_normal = this->transform.inverse().T() * object_normal;
+    world_normal.w = 0;
+
+    return world_normal.normalize();
+}
