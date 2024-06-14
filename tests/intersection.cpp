@@ -3,8 +3,9 @@
 #include <iostream>
 #include "../include/intersection.h"
 #include "../include/sphere.h"
-
-using namespace std;
+#include "../include/ray.h"
+#include "../include/tuple.h"
+#include "../include/prepared_computation.h"
 
 int main()
 {
@@ -19,7 +20,7 @@ int main()
     std::vector<Intersection> xs = {i1, i2};
     auto i_ = intersection::hit(xs);
 
-    assert(&i_ == &i1);
+    assert(i_.value() == &xs[0]);
 
     s = Sphere();
     i1 = Intersection(&s, -1);
@@ -27,23 +28,31 @@ int main()
     xs = {i1, i2};
     i_ = intersection::hit(xs);
 
-    assert(i_ == &i2);
+    assert(i_.value() == &xs[1]);
 
     s = Sphere();
     i1 = Intersection(&s, -1);
     i2 = Intersection(&s, -2);
-    xs = {&i1, &i2};
+    xs = {i1, i2};
     i_ = intersection::hit(xs);
 
-    assert(i_ == nullptr);
+    assert(!i_.has_value());
 
     s = Sphere();
     i1 = Intersection(&s, 5);
     i2 = Intersection(&s, 7);
     auto i3 = Intersection(&s, -3);
     auto i4 = Intersection(&s, 2);
-    xs = {&i1, &i2, &i3, &i4};
+    xs = {i1, i2, i3, i4};
     i_ = intersection::hit(xs);
 
-    assert(i_ == &i4);
+    assert(i_.value() == &xs[3]);
+
+    Ray r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
+    Sphere shape = Sphere();
+    i = Intersection(&shape, 4);
+
+    auto comps = prepare_computation(i, r);
+
+    assert(comps.t == i.t && comps.object == i.object && comps.point == tuple::point(0, 0, -1) && comps.eyev == tuple::vec(0, 0, -1) && comps.normalv == tuple::vec(0, 0, -1));
 }

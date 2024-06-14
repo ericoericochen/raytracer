@@ -7,7 +7,7 @@ Intersection::Intersection(Sphere *object, double t) : object(object), t(t) {}
 
 namespace intersection
 {
-    const std::optional<Intersection> hit(std::vector<Intersection> &intersections)
+    std::optional<Intersection *> hit(std::vector<Intersection> &intersections)
     {
         if (intersections.size() == 0)
         {
@@ -15,14 +15,14 @@ namespace intersection
         }
 
         double t = std::numeric_limits<double>::infinity();
-        std::optional<Intersection> hit = std::nullopt;
+        std::optional<Intersection *> hit = std::nullopt;
 
-        for (const auto i : intersections)
+        for (auto &i : intersections)
         {
             if (i.t >= 0 && i.t < t)
             {
                 t = i.t;
-                hit = i;
+                hit = &i;
             }
         }
 

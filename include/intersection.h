@@ -18,7 +18,7 @@ public:
 
 namespace intersection
 {
-    const std::optional<Intersection> hit(std::vector<Intersection> &intersections);
+    std::optional<Intersection *> hit(std::vector<Intersection> &intersections);
 }
 
 #endif

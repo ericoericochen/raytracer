@@ -47,8 +47,8 @@ int main()
             if (hit.has_value())
             {
                 auto hit_object = hit.value();
-                auto object = hit_object.object;
-                auto point = ray.position_at(hit_object.t);
+                auto object = hit_object->object;
+                auto point = ray.position_at(hit_object->t);
                 Tuple normal = object->normal_at(point);
                 Color color = lighting(object->material, light, point, -ray.direction, normal);
                 canvas.write_pixel(x, y, color);
