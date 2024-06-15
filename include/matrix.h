@@ -18,7 +18,7 @@ public:
     Matrix(const Matrix &other);
     Matrix &operator=(const Matrix &other);
     int dim() const;
-    bool operator==(Matrix &other) const;
+    bool operator==(const Matrix &other) const;
     bool operator!=(Matrix &other) const;
     double get(int i, int j) const;
     void set(int i, int j, double val);
@@ -52,6 +52,7 @@ namespace matrix
     Matrix rotation_y(double radians);
     Matrix rotation_z(double radians);
     Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy);
+    Matrix view_transform(Tuple &from, Tuple &to, Tuple &up);
 }
 
 #endif

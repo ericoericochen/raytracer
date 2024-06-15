@@ -8,6 +8,8 @@
 #include "../include/color.h"
 #include "../include/matrix.h"
 #include "../include/ray.h"
+#include "../include/canvas.h"
+#include "../include/camera.h"
 
 World::World()
 {
@@ -48,6 +50,45 @@ std::vector<Intersection> World::intersects(Ray &ray)
     return intersections;
 }
 
-// Color World::color_at(Ray &ray) {
+Color World::shade_hit(PreparedComputation &comps)
+{
+    return lighting(
+        comps.object->material,
+        this->light,
+        comps.point,
+        comps.eyev,
+        comps.normalv);
+}
 
-// }
+Color World::color_at(Ray &ray)
+{
+    auto intersections = this->intersects(ray);
+    auto hit = intersection::hit(intersections);
+
+    if (!hit.has_value())
+    {
+        return Color(0, 0, 0);
+    }
+
+    PreparedComputation comps = prepare_computation(*hit.value(), ray);
+    return this->shade_hit(comps);
+}
+
+Canvas World::render(Camera &camera)
+{
+    Canvas canvas = Canvas(camera.hsize, camera.vsize);
+
+    // loop through every pixel of canvas
+    for (int y = 0; y < canvas.height(); y++)
+    {
+        for (int x = 0; x < canvas.width(); x++)
+        {
+            // get ray going from camera to pixel in world space
+            Ray ray = camera.ray_for_pxiel(x, y);
+            Color color = this->color_at(ray);
+            canvas.write_pixel(x, y, color);
+        }
+    }
+
+    return canvas;
+}

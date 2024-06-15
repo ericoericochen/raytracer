@@ -50,7 +50,7 @@ Matrix &Matrix::operator=(const Matrix &other)
 
 int Matrix::dim() const { return m_dim; }
 
-bool Matrix::operator==(Matrix &other) const
+bool Matrix::operator==(const Matrix &other) const
 {
     if (this->m_dim != other.m_dim)
     {
@@ -347,5 +347,20 @@ namespace matrix
         matrix.set(2, 1, zy);
 
         return matrix;
+    }
+
+    Matrix view_transform(Tuple &from, Tuple &to, Tuple &up)
+    {
+        auto forward = (to - from).normalize();
+        auto norm_up = up.normalize();
+        auto left = forward.cross(norm_up);
+        auto true_up = left.cross(forward);
+
+        auto orientation = Matrix4x4(new double[16]{left.x, left.y, left.z, 0,
+                                                    true_up.x, true_up.y, true_up.z, 0,
+                                                    -forward.x, -forward.y, -forward.z, 0,
+                                                    0, 0, 0, 1});
+
+        return orientation * translation(-from.x, -from.y, -from.z);
     }
 }

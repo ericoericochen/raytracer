@@ -34,4 +34,29 @@ int main()
     c = shade_hit(w, comps);
 
     assert(c == Color(0.90498, 0.90498, 0.90498));
+
+    // color at
+    w = World();
+    r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 1, 0));
+    c = w.color_at(r);
+
+    assert(c == Color(0, 0, 0));
+
+    w = World();
+    r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
+    c = w.color_at(r);
+
+    assert(c == Color(0.38066, 0.47583, 0.2855));
+
+    w = World();
+    auto outer = &w.objects[0];
+    outer->material.ambient = 1;
+
+    auto inner = &w.objects[1];
+    inner->material.ambient = 1;
+
+    r = Ray(tuple::point(0, 0, 0.75), tuple::vec(0, 0, -1));
+    c = w.color_at(r);
+
+    assert(c == inner->material.color);
 }

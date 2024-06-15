@@ -95,7 +95,38 @@ int main()
     transform = matrix::shearing(1, 0, 0, 0, 0, 0);
     assert(transform * p == tuple::point(5, 3, 4));
 
-    // TOOD: implement rest of test cases
+    // view transform
+    auto from = tuple::point(0, 0, 0);
+    auto to = tuple::point(0, 0, -1);
+    auto up = tuple::vec(0, 1, 0);
+    Matrix t = matrix::view_transform(from, to, up);
+
+    assert(t == matrix::eye(4));
+
+    from = tuple::point(0, 0, 0);
+    to = tuple::point(0, 0, 1);
+    up = tuple::vec(0, 1, 0);
+    t = matrix::view_transform(from, to, up);
+
+    assert(t == matrix::scaling(-1, 1, -1));
+
+    from = tuple::point(0, 0, 8);
+    to = tuple::point(0, 0, 0);
+    up = tuple::vec(0, 1, 0);
+    t = matrix::view_transform(from, to, up);
+
+    assert(t == matrix::translation(0, 0, -8));
+
+    from = tuple::point(1, 3, 2);
+    to = tuple::point(4, -2, 8);
+    up = tuple::vec(1, 1, 0);
+    t = matrix::view_transform(from, to, up);
+
+    auto m = Matrix4x4(new double[16]{
+        -0.50709, 0.50709, 0.67612, -2.36643, 0.76772, 0.60609, 0.12122, -2.82843,
+        -0.35857, 0.59761, -0.71714, 0.00000, 0.00000, 0.00000, 0.00000, 1.00000});
+
+    assert(t == m);
 
     return 0;
 }
