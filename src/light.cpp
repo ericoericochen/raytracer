@@ -66,4 +66,5 @@ Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tup
     }
 
     return ambient + diffuse + specular;
+    // return ambient;
 }

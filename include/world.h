@@ -18,6 +18,7 @@ public:
     World();
 
     std::vector<Intersection> intersects(Ray &ray);
+    // Color color_at(Ray &ray);
 };
 
 #endif

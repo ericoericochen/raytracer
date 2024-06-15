@@ -51,8 +51,14 @@ int main()
     Ray r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
     Sphere shape = Sphere();
     i = Intersection(&shape, 4);
-
     auto comps = prepare_computation(i, r);
 
-    assert(comps.t == i.t && comps.object == i.object && comps.point == tuple::point(0, 0, -1) && comps.eyev == tuple::vec(0, 0, -1) && comps.normalv == tuple::vec(0, 0, -1));
+    assert(comps.t == i.t && !comps.inside && comps.object == i.object && comps.point == tuple::point(0, 0, -1) && comps.eyev == tuple::vec(0, 0, -1) && comps.normalv == tuple::vec(0, 0, -1));
+
+    r = Ray(tuple::point(0, 0, 0), tuple::vec(0, 0, 1));
+    shape = Sphere();
+    i = Intersection(&shape, 1);
+    comps = prepare_computation(i, r);
+
+    assert(comps.point == tuple::point(0, 0, 1) && comps.eyev == tuple::vec(0, 0, -1) && comps.inside && comps.normalv == tuple::vec(0, 0, -1));
 }

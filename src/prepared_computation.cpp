@@ -8,8 +8,6 @@ PreparedComputation::PreparedComputation(double t, Sphere *object, Tuple point, 
 
 PreparedComputation prepare_computation(Intersection &intersection, Ray &ray)
 {
-    std::cout << intersection.t << std::endl;
-
     auto point = ray.position_at(intersection.t);
     auto eyev = -ray.direction;
     auto normalv = intersection.object->normal_at(point);

@@ -15,7 +15,6 @@ int main()
         for (const Color &color : row)
         {
             assert(color == Color(0, 0, 0));
-            // cout << color.to_string() << endl;
         }
     }
 

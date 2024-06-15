@@ -1,11 +1,11 @@
 #include "../include/material.h"
 #include "../include/color.h"
 
-Material::Material(Color color, double ambient, double diffuse, double specular, double shininess)
+Material::Material()
 {
-    this->color = color;
-    this->ambient = ambient;
-    this->diffuse = diffuse;
-    this->specular = specular;
-    this->shininess = shininess;
+    this->color = Color(1, 1, 1);
+    this->ambient = 0.1;
+    this->diffuse = 0.9;
+    this->specular = 0.9;
+    this->shininess = 200.0;
 }
