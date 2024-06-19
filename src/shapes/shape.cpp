@@ -8,6 +8,7 @@ std::vector<Intersection> Shape::intersects(Ray &ray)
     // convert ray to object space by multiplying it with the inverse transform
     // transform takes something from object space to world space
     // inverse tranform takes something from world space to object space
+
     auto inv_transform = this->transform.inverse();
     Ray local_ray = ray::transform(ray, inv_transform);
     return this->local_intersects(local_ray);
@@ -16,8 +17,6 @@ std::vector<Intersection> Shape::intersects(Ray &ray)
 std::vector<Intersection> Shape::local_intersects(Ray &local_ray)
 {
     this->saved_ray = local_ray;
-
-    // std::cout << "Shape::local_intersects() called" << std::endl;
 
     return std::vector<Intersection>();
 }

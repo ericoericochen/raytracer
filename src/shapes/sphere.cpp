@@ -10,8 +10,6 @@ Sphere::Sphere() {}
 
 std::vector<Intersection> Sphere::local_intersects(Ray &local_ray)
 {
-    // std::cout << "Sphere::local_intersects" << std::endl;
-
     Tuple sphere_to_ray = local_ray.origin - tuple::point(0, 0, 0); // ray origin - sphere origin
     double a = local_ray.direction.dot(local_ray.direction);
     double b = 2.0 * local_ray.direction.dot(sphere_to_ray);

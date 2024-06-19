@@ -11,6 +11,7 @@
 #include "../include/ray.h"
 #include "../include/canvas.h"
 #include "../include/camera.h"
+#include "../include/transforms.h"
 
 World::World()
 {
@@ -24,13 +25,13 @@ World::World()
     m.diffuse = 0.7;
     m.specular = 0.2;
 
-    Sphere s1 = Sphere();
-    s1.material = m;
+    Sphere *s1 = new Sphere();
+    s1->material = m;
 
-    Sphere s2 = Sphere();
-    s2.transform = matrix::scaling(0.5, 0.5, 0.5);
+    Sphere *s2 = new Sphere();
+    s2->transform = transforms::scaling(0.5, 0.5, 0.5);
 
-    std::vector<Shape *> default_objects = {&s1, &s2};
+    std::vector<Shape *> default_objects = {s1, s2};
     this->objects = default_objects;
 }
 
@@ -39,7 +40,7 @@ std::vector<Intersection> World::intersects(Ray &ray)
     std::vector<Intersection> intersections = {};
 
     // for each object, calculate intersections
-    for (auto &object : this->objects)
+    for (auto object : this->objects)
     {
         auto object_intersections = object->intersects(ray);
         intersections.insert(intersections.end(), object_intersections.begin(), object_intersections.end());
