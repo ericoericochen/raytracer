@@ -52,12 +52,16 @@ std::vector<Intersection> World::intersects(Ray &ray)
 
 Color World::shade_hit(PreparedComputation &comps)
 {
+    // bool in_shadow = this->is_shadowed(comps.point);
+    bool in_shadow = this->is_shadowed(comps.over_point);
     return lighting(
         comps.object->material,
         this->light,
-        comps.point,
+        // comps.point,
+        comps.over_point,
         comps.eyev,
-        comps.normalv);
+        comps.normalv,
+        in_shadow);
 }
 
 Color World::color_at(Ray &ray)
@@ -91,4 +95,24 @@ Canvas World::render(Camera &camera)
     }
 
     return canvas;
+}
+
+bool World::is_shadowed(Tuple &point)
+{
+    auto point_to_light = this->light.position - point;
+    auto distance = point_to_light.magnitude();
+    auto direction = point_to_light.normalize();
+
+    Ray ray = Ray(point, direction);
+    auto intersections = this->intersects(ray);
+    auto hit = intersection::hit(intersections);
+
+    if (!hit.has_value())
+    {
+        return false;
+    }
+
+    auto hit_value = hit.value();
+
+    return hit_value->t < distance;
 }

@@ -49,4 +49,13 @@ int main()
     light = PointLight(tuple::point(0, 0, 10), Color(1, 1, 1));
     result = lighting(m, light, position, eyev, normalv);
     assert(result == Color(0.1, 0.1, 0.1));
+
+    // shadows
+    eyev = tuple::vec(0, 0, -1);
+    normalv = tuple::vec(0, 0, -1);
+    light = PointLight(tuple::point(0, 0, -10), Color(1, 1, 1));
+    bool in_shadow = true;
+    result = lighting(m, light, position, eyev, normalv, in_shadow);
+
+    assert(result == Color(0.1, 0.1, 0.1));
 }

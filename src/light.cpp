@@ -19,7 +19,7 @@ namespace light
     PointLight point_light(Tuple position, Color intensity) { return PointLight(position, intensity); }
 }
 
-Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tuple normalv)
+Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tuple normalv, bool in_shadow)
 {
     // combine surface color with light's color/intensity
     Color effective_color = material.color * light.intensity;
@@ -65,6 +65,11 @@ Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tup
         }
     }
 
+    // if in shadow, ignore specular and diffuse lightings
+    if (in_shadow)
+    {
+        return ambient;
+    }
+
     return ambient + diffuse + specular;
-    // return ambient;
 }

@@ -5,6 +5,7 @@
 #include "../include/sphere.h"
 #include "../include/ray.h"
 #include "../include/tuple.h"
+#include "../include/utils.h"
 #include "../include/prepared_computation.h"
 
 int main()
@@ -61,4 +62,12 @@ int main()
     comps = prepare_computation(i, r);
 
     assert(comps.point == tuple::point(0, 0, 1) && comps.eyev == tuple::vec(0, 0, -1) && comps.inside && comps.normalv == tuple::vec(0, 0, -1));
+
+    r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
+    shape = Sphere();
+    shape.set_transform(matrix::translation(0, 0, 1));
+    i = Intersection(&shape, 5);
+    comps = prepare_computation(i, r);
+
+    assert(comps.over_point.z < -EPSILON / 2 && comps.point.z > comps.over_point.z);
 }

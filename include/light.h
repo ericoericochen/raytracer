@@ -20,6 +20,6 @@ namespace light
     PointLight point_light(Tuple position, Color intensity);
 }
 
-Color lighting(Material material, PointLight light, Tuple position, Tuple eye, Tuple normal);
+Color lighting(Material material, PointLight light, Tuple position, Tuple eye, Tuple normal, bool in_shadow = false);
 
 #endif

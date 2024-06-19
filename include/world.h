@@ -24,6 +24,7 @@ public:
     Color shade_hit(PreparedComputation &comps);
     Color color_at(Ray &ray);
     Canvas render(Camera &camera);
+    bool is_shadowed(Tuple &point);
 };
 
 #endif
