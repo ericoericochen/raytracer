@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include "../include/world.h"
-#include "../include/sphere.h"
+#include "../include/shapes/sphere.h"
+#include "../include/shapes/shape.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
 #include "../include/light.h"
@@ -48,16 +49,16 @@ int main()
     World world = World();
     world.light = light::point_light(tuple::point(-10, 10, -10), Color(1, 1, 1));
 
-    world.objects = std::vector<Sphere>{
-        floor,
-        right_wall,
-        left_wall,
-        middle,
-        left,
-        right};
+    world.objects = std::vector<Shape *>{
+        &floor,
+        &right_wall,
+        &left_wall,
+        &middle,
+        &left,
+        &right};
 
-    // Camera camera = Camera(100, 50, M_PI / 3);
-    Camera camera = Camera(500, 250, M_PI / 3);
+    Camera camera = Camera(100, 50, M_PI / 3);
+    // Camera camera = Camera(500, 250, M_PI / 3);
     auto from = tuple::point(0, 1.5, -5);
     auto to = tuple::point(0, 1, 0);
     auto up = tuple::vec(0, 1, 0);

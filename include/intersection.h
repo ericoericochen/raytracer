@@ -3,17 +3,17 @@
 
 #include <vector>
 
-class Sphere;
+class Shape;
 
 class Intersection
 {
 
 public:
-    Sphere *object;
+    Shape *object;
     double t;
 
 public:
-    Intersection(Sphere *object, double t);
+    Intersection(Shape *object, double t);
 };
 
 namespace intersection

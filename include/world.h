@@ -5,7 +5,7 @@
 #include "light.h"
 #include "tuple.h"
 #include "color.h"
-#include "sphere.h"
+#include "shapes/shape.h"
 #include "intersection.h"
 #include "ray.h"
 #include "prepared_computation.h"
@@ -16,7 +16,7 @@ class World
 {
 public:
     PointLight light;
-    std::vector<Sphere> objects;
+    std::vector<Shape *> objects;
 
     World();
 

@@ -1,8 +1,9 @@
 #include <iostream>
 #include "../include/prepared_computation.h"
 #include "../include/utils.h"
+#include "../include/shapes/shape.h"
 
-PreparedComputation::PreparedComputation(double t, Sphere *object, Tuple point, Tuple eyev, Tuple normalv, bool inside, Tuple over_point)
+PreparedComputation::PreparedComputation(double t, Shape *object, Tuple point, Tuple eyev, Tuple normalv, bool inside, Tuple over_point)
     : t(t), object(object), point(point), eyev(eyev), normalv(normalv), inside(inside), over_point(over_point)
 {
 }

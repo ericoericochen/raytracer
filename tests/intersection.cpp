@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "../include/intersection.h"
-#include "../include/sphere.h"
+#include "../include/shapes/sphere.h"
 #include "../include/ray.h"
 #include "../include/tuple.h"
 #include "../include/utils.h"
@@ -65,7 +65,7 @@ int main()
 
     r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
     shape = Sphere();
-    shape.set_transform(matrix::translation(0, 0, 1));
+    shape.transform = matrix::translation(0, 0, 1);
     i = Intersection(&shape, 5);
     comps = prepare_computation(i, r);
 

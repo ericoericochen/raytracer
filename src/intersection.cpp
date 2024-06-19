@@ -1,9 +1,9 @@
 #include <vector>
 #include <iostream>
 #include "../include/intersection.h"
-#include "../include/sphere.h"
+#include "../include/shapes/shape.h"
 
-Intersection::Intersection(Sphere *object, double t) : object(object), t(t) {}
+Intersection::Intersection(Shape *object, double t) : object(object), t(t) {}
 
 namespace intersection
 {

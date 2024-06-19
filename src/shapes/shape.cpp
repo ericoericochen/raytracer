@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../../include/shapes/shape.h"
 
 Shape::Shape() {}
@@ -15,6 +16,8 @@ std::vector<Intersection> Shape::intersects(Ray &ray)
 std::vector<Intersection> Shape::local_intersects(Ray &local_ray)
 {
     this->saved_ray = local_ray;
+
+    // std::cout << "Shape::local_intersects() called" << std::endl;
 
     return std::vector<Intersection>();
 }

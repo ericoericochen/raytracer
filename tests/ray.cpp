@@ -1,7 +1,7 @@
 #include <cassert>
 #include "../include/tuple.h"
 #include "../include/ray.h"
-#include "../include/sphere.h"
+#include "../include/shapes/sphere.h"
 #include "../include/matrix.h"
 
 int main()
