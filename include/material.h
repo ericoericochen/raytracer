@@ -10,7 +10,6 @@ public:
     double ambient, diffuse, specular, shininess;
 
     Material();
-    // Material(Color color, double ambient, double diffuse, double specular, double shininess);
 };
 
 #endif
