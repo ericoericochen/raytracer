@@ -4,6 +4,7 @@
 #include "../include/color.h"
 #include "../include/light.h"
 #include "../include/tuple.h"
+#include "../include/patterns/stripe.h"
 
 int main()
 {
@@ -58,4 +59,19 @@ int main()
     result = lighting(m, light, position, eyev, normalv, in_shadow);
 
     assert(result == Color(0.1, 0.1, 0.1));
+
+    // Lighting with a pattern applied
+    m = Material();
+    m.pattern = new Stripe(Color(1, 1, 1), Color(0, 0, 0));
+    m.ambient = 1;
+    m.diffuse = 0;
+    m.specular = 0;
+    eyev = tuple::vec(0, 0, -1);
+    normalv = tuple::vec(0, 0, -1);
+    light = PointLight(tuple::point(0, 0, -10), Color(1, 1, 1));
+    auto c1 = lighting(m, light, tuple::point(0.9, 0, 0), eyev, normalv, false);
+    auto c2 = lighting(m, light, tuple::point(1.1, 0, 0), eyev, normalv, false);
+
+    assert(c1 == Color(1, 1, 1));
+    assert(c2 == Color(0, 0, 0));
 }

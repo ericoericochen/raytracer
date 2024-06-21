@@ -1,6 +1,7 @@
 #include <cmath>
 #include "../include/light.h"
 #include "../include/color.h"
+#include "../include/patterns/stripe.h"
 
 PointLight::PointLight()
 {
@@ -21,8 +22,20 @@ namespace light
 
 Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tuple normalv, bool in_shadow)
 {
+    Color color;
+
+    if (material.pattern != nullptr)
+    {
+        color = material.pattern->pattern_at(point);
+    }
+    else
+    {
+        color = material.color;
+    }
+
     // combine surface color with light's color/intensity
-    Color effective_color = material.color * light.intensity;
+    Color effective_color = color * light.intensity;
+    // Color effective_color = material.color * light.intensity;
 
     // direction to the light source
     auto lightv = (light.position - point).normalize();
