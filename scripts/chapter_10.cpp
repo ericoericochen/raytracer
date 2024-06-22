@@ -15,13 +15,15 @@ int main()
 {
     Plane floor = Plane();
 
-    floor.material.pattern = new Stripe(Color(1, 1, 1), Color(0, 0, 0));
+    // floor.material.pattern = new Stripe(Color(1, 1, 1), Color(0, 0, 0));
 
     Sphere middle = Sphere();
     middle.transform = matrix::translation(-0.5, 1, 0.5);
     middle.material.color = Color(0.1, 1, 0.5);
     middle.material.diffuse = 0.7;
     middle.material.specular = 0.3;
+    middle.material.pattern = new Stripe(Color(1, 0, 0), Color(0, 1, 0));
+    middle.material.pattern->transform = matrix::scaling(0.1, 0.1, 0.1) * matrix::rotation_z(M_PI / 4);
 
     Sphere right = Sphere();
     right.transform = matrix::translation(1.5, 0.5, -0.5) * matrix::scaling(0.5, 0.5, 0.5);

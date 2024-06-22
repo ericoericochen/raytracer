@@ -23,6 +23,8 @@ public:
 
     Tuple normal_at(const Tuple &world_point) const;
     virtual Tuple local_normal_at(const Tuple &local_point) const;
+
+    Color pattern_at(const Tuple &world_point) const;
 };
 
 #endif

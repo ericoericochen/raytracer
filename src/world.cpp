@@ -58,6 +58,7 @@ Color World::shade_hit(PreparedComputation &comps)
     bool in_shadow = this->is_shadowed(comps.over_point);
     return lighting(
         comps.object->material,
+        comps.object,
         this->light,
         comps.over_point,
         comps.eyev,

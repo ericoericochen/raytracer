@@ -40,3 +40,10 @@ Tuple Shape::local_normal_at(const Tuple &world_point) const
 {
     return tuple::vec(world_point.x, world_point.y, world_point.z);
 }
+
+Color Shape::pattern_at(const Tuple &world_point) const
+{
+    auto object_point = this->transform.inverse() * world_point;
+    auto pattern_point = this->material.pattern->transform.inverse() * object_point;
+    return this->material.pattern->pattern_at(pattern_point);
+}

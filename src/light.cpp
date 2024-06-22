@@ -2,6 +2,7 @@
 #include "../include/light.h"
 #include "../include/color.h"
 #include "../include/patterns/stripe.h"
+#include "../include/shapes/shape.h"
 
 PointLight::PointLight()
 {
@@ -20,13 +21,14 @@ namespace light
     PointLight point_light(Tuple position, Color intensity) { return PointLight(position, intensity); }
 }
 
-Color lighting(Material material, PointLight light, Tuple point, Tuple eyev, Tuple normalv, bool in_shadow)
+Color lighting(Material material, Shape *object, PointLight light, Tuple point, Tuple eyev, Tuple normalv, bool in_shadow)
 {
     Color color;
 
     if (material.pattern != nullptr)
     {
-        color = material.pattern->pattern_at(point);
+        // color = material.pattern->pattern_at(point);
+        color = object->pattern_at(point);
     }
     else
     {
