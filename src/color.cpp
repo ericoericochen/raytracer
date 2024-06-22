@@ -24,6 +24,11 @@ Color Color::operator+(const Color &other) const
     return Color(this->r() + other.r(), this->g() + other.g(), this->b() + other.b());
 }
 
+Color Color::operator-(const Color &other) const
+{
+    return Color(this->r() - other.r(), this->g() - other.g(), this->b() - other.b());
+}
+
 std::string Color::to_string() const
 {
     return "Color(" + std::to_string(this->r()) + ", " + std::to_string(this->g()) + ", " + std::to_string(this->b()) + ")";

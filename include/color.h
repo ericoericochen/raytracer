@@ -19,6 +19,7 @@ public:
     Color operator*(const Color &other) const;
     Color operator*(const double scalar) const;
     Color operator+(const Color &other) const;
+    Color operator-(const Color &other) const;
 
     std::string to_string() const;
 };

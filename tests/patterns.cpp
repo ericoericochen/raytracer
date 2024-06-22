@@ -3,6 +3,7 @@
 #include "../include/color.h"
 #include "../include/patterns/stripe.h"
 #include "../include/patterns/pattern.h"
+#include "../include/patterns/gradient.h"
 #include "../include/tuple.h"
 #include "../include/shapes/sphere.h"
 #include "../include/transforms.h"
@@ -82,6 +83,10 @@ int main()
     c = shape.pattern_at(tuple::point(2.5, 3, 3.5));
     assert(c == Color(0.75, 0.5, 0.25));
 
-
-
+    // A gradient linearly interpolates between colors
+    auto gradient = Gradient(white, black);
+    assert(gradient.pattern_at(tuple::point(0, 0, 0)) == white);
+    assert(gradient.pattern_at(tuple::point(0.25, 0, 0)) == Color(0.75, 0.75, 0.75));
+    assert(gradient.pattern_at(tuple::point(0.5, 0, 0)) == Color(0.5, 0.5, 0.5));
+    assert(gradient.pattern_at(tuple::point(0.75, 0, 0)) == Color(0.25, 0.25, 0.25));
 }

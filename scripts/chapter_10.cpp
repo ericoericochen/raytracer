@@ -4,6 +4,7 @@
 #include "../include/shapes/sphere.h"
 #include "../include/shapes/shape.h"
 #include "../include/shapes/plane.h"
+#include "../include/patterns/gradient.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
 #include "../include/light.h"
@@ -30,6 +31,7 @@ int main()
     right.material.color = Color(0.5, 1, 0.1);
     right.material.diffuse = 0.7;
     right.material.specular = 0.3;
+    right.material.pattern = new Gradient(Color(0, 1, 0), Color(0, 0, 1));
 
     Sphere left = Sphere();
     left.transform = matrix::translation(-1.5, 0.33, -0.75) * matrix::scaling(0.33, 0.33, 0.33);
@@ -46,8 +48,8 @@ int main()
         &left,
         &right};
 
-    Camera camera = Camera(100, 50, M_PI / 3);
-    // Camera camera = Camera(500, 250, M_PI / 3);
+    // Camera camera = Camera(100, 50, M_PI / 3);
+    Camera camera = Camera(500, 250, M_PI / 3);
     auto from = tuple::point(0, 1.5, -5);
     auto to = tuple::point(0, 1, 0);
     auto up = tuple::vec(0, 1, 0);
