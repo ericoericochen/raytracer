@@ -7,6 +7,7 @@
 #include "../include/tuple.h"
 #include "../include/utils.h"
 #include "../include/prepared_computation.h"
+#include "../include/shapes/plane.h"
 
 int main()
 {
@@ -70,4 +71,12 @@ int main()
     comps = prepare_computation(i, r);
 
     assert(comps.over_point.z < -EPSILON / 2 && comps.point.z > comps.over_point.z);
+
+    // Precomputing the reflection vector
+    auto plane = Plane();
+    r = Ray(tuple::point(0, 1, -1), tuple::vec(0, -sqrt(2) / 2, sqrt(2) / 2));
+    i = Intersection(&plane, sqrt(2));
+    comps = prepare_computation(i, r);
+
+    assert(comps.reflectv == tuple::vec(0, sqrt(2) / 2, sqrt(2) / 2));
 }

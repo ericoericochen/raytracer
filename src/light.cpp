@@ -26,12 +26,8 @@ Color lighting(Material material, Shape *object, PointLight light, Tuple point, 
 {
     Color color;
 
-    // std::cout << material.pattern << std::endl;
-
     if (material.pattern != nullptr)
     {
-        std::cout << "pattern" << std::endl;
-        // color = material.pattern->pattern_at(point);
         color = object->pattern_at(point);
     }
     else
@@ -41,7 +37,6 @@ Color lighting(Material material, Shape *object, PointLight light, Tuple point, 
 
     // combine surface color with light's color/intensity
     Color effective_color = color * light.intensity;
-    // Color effective_color = material.color * light.intensity;
 
     // direction to the light source
     auto lightv = (light.position - point).normalize();

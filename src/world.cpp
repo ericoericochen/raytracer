@@ -53,10 +53,11 @@ std::vector<Intersection> World::intersects(Ray &ray)
     return intersections;
 }
 
-Color World::shade_hit(PreparedComputation &comps)
+Color World::shade_hit(PreparedComputation &comps, int remaining)
 {
     bool in_shadow = this->is_shadowed(comps.over_point);
-    return lighting(
+
+    auto surface = lighting(
         comps.object->material,
         comps.object,
         this->light,
@@ -64,9 +65,14 @@ Color World::shade_hit(PreparedComputation &comps)
         comps.eyev,
         comps.normalv,
         in_shadow);
+
+    // get reflected color
+    auto reflected = this->reflected_color(comps, remaining);
+
+    return surface + reflected;
 }
 
-Color World::color_at(Ray &ray)
+Color World::color_at(Ray &ray, int remaining)
 {
     auto intersections = this->intersects(ray);
     auto hit = intersection::hit(intersections);
@@ -77,7 +83,7 @@ Color World::color_at(Ray &ray)
     }
 
     PreparedComputation comps = prepare_computation(*hit.value(), ray);
-    return this->shade_hit(comps);
+    return this->shade_hit(comps, remaining);
 }
 
 Canvas World::render(Camera &camera)
@@ -117,4 +123,26 @@ bool World::is_shadowed(Tuple &point)
     auto hit_value = hit.value();
 
     return hit_value->t < distance;
+}
+
+Color World::reflected_color(PreparedComputation &comps, int remaining)
+{
+    if (remaining < 1)
+    {
+        return Color(0, 0, 0); // no more reflections
+    }
+
+    double reflective = comps.object->material.reflective;
+    if (reflective == 0)
+    {
+        return Color(0, 0, 0);
+    }
+
+    // create ray from intersection in the direction of the reflected ray
+    auto reflected_ray = Ray(comps.over_point, comps.reflectv);
+
+    // get the color of the reflected ray
+    auto color = this->color_at(reflected_ray, remaining - 1) * reflective;
+
+    return color;
 }

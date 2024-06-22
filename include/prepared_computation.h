@@ -11,10 +11,10 @@ class PreparedComputation
 public:
     double t;
     Shape *object;
-    Tuple point, eyev, normalv, over_point;
+    Tuple point, eyev, normalv, over_point, reflectv;
     bool inside;
 
-    PreparedComputation(double t, Shape *object, Tuple point, Tuple eyev, Tuple normalv, bool inside, Tuple over_point = tuple::point(0, 0, 0));
+    PreparedComputation(double t, Shape *object, Tuple point, Tuple eyev, Tuple normalv, bool inside, Tuple over_point = tuple::point(0, 0, 0), Tuple reflectv = tuple::vec(0, 0, 0));
 };
 
 PreparedComputation prepare_computation(Intersection &intersection, Ray &ray);

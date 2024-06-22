@@ -81,4 +81,8 @@ int main()
 
     assert(c1 == Color(1, 1, 1));
     assert(c2 == Color(0, 0, 0));
+
+    // Reflectivity for the default material
+    m = Material();
+    assert(m.reflective == 0.0);
 }

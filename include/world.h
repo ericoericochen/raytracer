@@ -12,6 +12,8 @@
 #include "camera.h"
 #include "canvas.h"
 
+const int DEFAULT_REMAINING = 4;
+
 class World
 {
 public:
@@ -21,10 +23,11 @@ public:
     World();
 
     std::vector<Intersection> intersects(Ray &ray);
-    Color shade_hit(PreparedComputation &comps);
-    Color color_at(Ray &ray);
+    Color shade_hit(PreparedComputation &comps, int remaining = DEFAULT_REMAINING);
+    Color color_at(Ray &ray, int remaining = DEFAULT_REMAINING);
     Canvas render(Camera &camera);
     bool is_shadowed(Tuple &point);
+    Color reflected_color(PreparedComputation &comps, int remaining = DEFAULT_REMAINING);
 };
 
 #endif
