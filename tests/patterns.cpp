@@ -4,6 +4,7 @@
 #include "../include/patterns/stripe.h"
 #include "../include/patterns/pattern.h"
 #include "../include/patterns/gradient.h"
+#include "../include/patterns/checker.h"
 #include "../include/patterns/ring.h"
 #include "../include/tuple.h"
 #include "../include/shapes/sphere.h"
@@ -97,4 +98,22 @@ int main()
     assert(ring.pattern_at(tuple::point(1, 0, 0)) == black);
     assert(ring.pattern_at(tuple::point(0, 0, 1)) == black);
     assert(ring.pattern_at(tuple::point(0.708, 0, 0.708)) == black);
+
+    // Checkers should repeat in x
+    auto checkers = Checker(white, black);
+    assert(checkers.pattern_at(tuple::point(0, 0, 0)) == white);
+    assert(checkers.pattern_at(tuple::point(0.99, 0, 0)) == white);
+    assert(checkers.pattern_at(tuple::point(1.01, 0, 0)) == black);
+
+    //  Checkers should repeat in y
+    checkers = Checker(white, black);
+    assert(checkers.pattern_at(tuple::point(0, 0, 0)) == white);
+    assert(checkers.pattern_at(tuple::point(0, 0.99, 0)) == white);
+    assert(checkers.pattern_at(tuple::point(0, 1.01, 0)) == black);
+
+    //  Checkers should repeat in z
+    checkers = Checker(white, black);
+    assert(checkers.pattern_at(tuple::point(0, 0, 0)) == white);
+    assert(checkers.pattern_at(tuple::point(0, 0, 0.99)) == white);
+    assert(checkers.pattern_at(tuple::point(0, 0, 1.01)) == black);
 }

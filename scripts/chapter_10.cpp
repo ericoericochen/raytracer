@@ -5,6 +5,7 @@
 #include "../include/shapes/shape.h"
 #include "../include/shapes/plane.h"
 #include "../include/patterns/gradient.h"
+#include "../include/patterns/checker.h"
 #include "../include/patterns/ring.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
@@ -17,7 +18,7 @@ int main()
 {
     Plane floor = Plane();
 
-    floor.material.pattern = new Ring(Color(1, 1, 1), Color(0, 0, 0));
+    floor.material.pattern = new Checker(Color(1, 1, 1), Color(0, 0, 0));
 
     Sphere middle = Sphere();
     middle.transform = matrix::translation(-0.5, 1, 0.5);
@@ -33,12 +34,15 @@ int main()
     right.material.diffuse = 0.7;
     right.material.specular = 0.3;
     right.material.pattern = new Gradient(Color(0, 1, 0), Color(0, 0, 1));
+    right.material.pattern->transform = transforms::rotation_y(M_PI / 2);
 
     Sphere left = Sphere();
     left.transform = matrix::translation(-1.5, 0.33, -0.75) * matrix::scaling(0.33, 0.33, 0.33);
     left.material.color = Color(1, 0.8, 0.1);
     left.material.diffuse = 0.7;
     left.material.specular = 0.3;
+    left.material.pattern = new Ring(Color(1, 0, 0), Color(0, 0, 1));
+    left.material.pattern->transform = matrix::translation(-1.5, 0.33, -0.75) * matrix::scaling(0.33, 0.33, 0.33);
 
     World world = World();
     world.light = light::point_light(tuple::point(-10, 10, -10), Color(1, 1, 1));
