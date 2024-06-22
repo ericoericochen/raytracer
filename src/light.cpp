@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "../include/light.h"
 #include "../include/color.h"
 #include "../include/patterns/stripe.h"
@@ -25,8 +26,11 @@ Color lighting(Material material, Shape *object, PointLight light, Tuple point, 
 {
     Color color;
 
+    // std::cout << material.pattern << std::endl;
+
     if (material.pattern != nullptr)
     {
+        std::cout << "pattern" << std::endl;
         // color = material.pattern->pattern_at(point);
         color = object->pattern_at(point);
     }

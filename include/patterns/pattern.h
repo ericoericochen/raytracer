@@ -12,6 +12,7 @@ public:
     Matrix transform = transforms::eye();
 
     Pattern();
+    ~Pattern();
     virtual Color pattern_at(const Tuple &point) const;
 };
 

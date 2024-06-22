@@ -8,10 +8,11 @@ class Material
 {
 public:
     Color color;
-    double ambient, diffuse, specular, shininess;
+    double ambient, diffuse, specular, shininess, reflective;
     Pattern *pattern = nullptr;
 
     Material();
+    ~Material();
 };
 
 #endif

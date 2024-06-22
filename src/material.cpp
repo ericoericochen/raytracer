@@ -8,4 +8,10 @@ Material::Material()
     this->diffuse = 0.9;
     this->specular = 0.9;
     this->shininess = 200.0;
+    this->reflective = 0.0;
+}
+
+Material::~Material()
+{
+    // delete this->pattern;
 }

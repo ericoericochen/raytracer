@@ -44,6 +44,8 @@ Tuple Shape::local_normal_at(const Tuple &world_point) const
 Color Shape::pattern_at(const Tuple &world_point) const
 {
     auto object_point = this->transform.inverse() * world_point;
+    std::cout << this->material.pattern->transform.to_string() << std::endl;
     auto pattern_point = this->material.pattern->transform.inverse() * object_point;
+
     return this->material.pattern->pattern_at(pattern_point);
 }
