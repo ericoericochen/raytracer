@@ -9,6 +9,8 @@ Material::Material()
     this->specular = 0.9;
     this->shininess = 200.0;
     this->reflective = 0.0;
+    this->transparency = 0.0;
+    this->refractive_index = 1.0;
 }
 
 Material::~Material()

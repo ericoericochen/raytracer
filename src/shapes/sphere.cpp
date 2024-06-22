@@ -39,3 +39,11 @@ Tuple Sphere::local_normal_at(const Tuple &local_point) const
     auto local_normal = local_point - tuple::point(0, 0, 0);
     return local_normal;
 }
+
+Sphere glass_sphere()
+{
+    Sphere s = Sphere();
+    s.material.transparency = 1.0;
+    s.material.refractive_index = 1.5;
+    return s;
+}

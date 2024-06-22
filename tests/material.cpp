@@ -85,4 +85,12 @@ int main()
     // Reflectivity for the default material
     m = Material();
     assert(m.reflective == 0.0);
+
+    // Transparency and Refractive Index for the default material
+    m = Material();
+    assert(m.transparency == 0.0 && m.refractive_index == 1.0);
+
+    // Glassy sphere
+    auto s2 = glass_sphere();
+    assert(s2.material.transparency == 1.0 && s2.material.refractive_index == 1.5);
 }
