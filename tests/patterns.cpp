@@ -4,6 +4,7 @@
 #include "../include/patterns/stripe.h"
 #include "../include/patterns/pattern.h"
 #include "../include/patterns/gradient.h"
+#include "../include/patterns/ring.h"
 #include "../include/tuple.h"
 #include "../include/shapes/sphere.h"
 #include "../include/transforms.h"
@@ -89,4 +90,11 @@ int main()
     assert(gradient.pattern_at(tuple::point(0.25, 0, 0)) == Color(0.75, 0.75, 0.75));
     assert(gradient.pattern_at(tuple::point(0.5, 0, 0)) == Color(0.5, 0.5, 0.5));
     assert(gradient.pattern_at(tuple::point(0.75, 0, 0)) == Color(0.25, 0.25, 0.25));
+
+    // A ring should extend in both x and z
+    auto ring = Ring(white, black);
+    assert(ring.pattern_at(tuple::point(0, 0, 0)) == white);
+    assert(ring.pattern_at(tuple::point(1, 0, 0)) == black);
+    assert(ring.pattern_at(tuple::point(0, 0, 1)) == black);
+    assert(ring.pattern_at(tuple::point(0.708, 0, 0.708)) == black);
 }

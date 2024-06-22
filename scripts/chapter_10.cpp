@@ -5,6 +5,7 @@
 #include "../include/shapes/shape.h"
 #include "../include/shapes/plane.h"
 #include "../include/patterns/gradient.h"
+#include "../include/patterns/ring.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
 #include "../include/light.h"
@@ -16,7 +17,7 @@ int main()
 {
     Plane floor = Plane();
 
-    // floor.material.pattern = new Stripe(Color(1, 1, 1), Color(0, 0, 0));
+    floor.material.pattern = new Ring(Color(1, 1, 1), Color(0, 0, 0));
 
     Sphere middle = Sphere();
     middle.transform = matrix::translation(-0.5, 1, 0.5);
