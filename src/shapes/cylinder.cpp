@@ -2,6 +2,7 @@
 #include "../../include/utils.h"
 #include "../../include/shapes/cylinder.h"
 #include "../../include/intersection.h"
+#include "../../include/utils.h"
 
 Cylinder::Cylinder() {}
 
@@ -15,13 +16,43 @@ bool check_cap(Ray &ray, double t)
     return (x * x + z * z) <= 1;
 }
 
+std::vector<Intersection> Cylinder::intersect_caps(Ray &ray)
+{
+    if (!this->closed || equal(ray.direction.y, 0))
+    {
+        return {};
+    }
+
+    std::vector<Intersection> intersections = {};
+
+    // check lower end cap
+    double t;
+    t = (this->min - ray.origin.y) / ray.direction.y;
+
+    if (check_cap(ray, t))
+    {
+        intersections.push_back(Intersection(this, t));
+    }
+
+    // check upper end cap
+    t = (this->max - ray.origin.y) / ray.direction.y;
+
+    if (check_cap(ray, t))
+    {
+        intersections.push_back(Intersection(this, t));
+    }
+
+    return intersections;
+}
+
 std::vector<Intersection> Cylinder::local_intersects(Ray &local_ray)
 {
     auto a = local_ray.direction.x * local_ray.direction.x + local_ray.direction.z * local_ray.direction.z;
 
     if (equal(a, 0))
     {
-        return {};
+        // return {};
+        return this->intersect_caps(local_ray);
     }
 
     auto b = 2 * local_ray.origin.x * local_ray.direction.x + 2 * local_ray.origin.z * local_ray.direction.z;
@@ -53,10 +84,24 @@ std::vector<Intersection> Cylinder::local_intersects(Ray &local_ray)
         intersections.push_back(Intersection(this, t2));
     }
 
+    auto cap_intersections = this->intersect_caps(local_ray);
+    intersections.insert(intersections.end(), cap_intersections.begin(), cap_intersections.end());
+
     return intersections;
 }
 
 Tuple Cylinder::local_normal_at(const Tuple &local_point) const
 {
+    auto dist = local_point.x * local_point.x + local_point.z * local_point.z;
+
+    if (dist < 1 && local_point.y >= this->max - EPSILON)
+    {
+        return tuple::vec(0, 1, 0);
+    }
+    else if (dist < 1 && local_point.y <= this->min + EPSILON)
+    {
+        return tuple::vec(0, -1, 0);
+    }
+
     return tuple::vec(local_point.x, 0, local_point.z);
 }

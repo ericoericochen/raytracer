@@ -8,6 +8,9 @@
 
 class Cylinder : public Shape
 {
+private:
+    std::vector<Intersection> intersect_caps(Ray &ray);
+
 public:
     double min = -INFINITY;
     double max = INFINITY;

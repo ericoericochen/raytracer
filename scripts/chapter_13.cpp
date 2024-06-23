@@ -5,6 +5,7 @@
 #include "../include/shapes/shape.h"
 #include "../include/shapes/plane.h"
 #include "../include/shapes/cylinder.h"
+#include "../include/patterns/checker.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
 #include "../include/light.h"
@@ -16,6 +17,7 @@ int main()
     Plane floor = Plane();
 
     Cylinder middle = Cylinder(0, 1);
+    middle.closed = true;
     middle.transform = matrix::translation(-0.5, 1, 0.5) * matrix::rotation_x(M_PI / 4);
     middle.material.color = Color(0.1, 1, 0.5);
     middle.material.diffuse = 0.7;

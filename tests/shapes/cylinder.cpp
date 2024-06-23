@@ -110,4 +110,23 @@ int main()
     ray = Ray(tuple::point(0, -1, -2), tuple::vec(0, 1, 1).normalize());
     xs = cyl.intersects(ray);
     assert(xs.size() == 2);
+
+    //  The normal vector on a cylinder's end caps
+    n = cyl.normal_at(tuple::point(0, 1, 0));
+    assert(n == tuple::vec(0, -1, 0));
+
+    n = cyl.normal_at(tuple::point(0.5, 1, 0));
+    assert(n == tuple::vec(0, -1, 0));
+
+    n = cyl.normal_at(tuple::point(0, 1, 0.5));
+    assert(n == tuple::vec(0, -1, 0));
+
+    n = cyl.normal_at(tuple::point(0, 2, 0));
+    assert(n == tuple::vec(0, 1, 0));
+
+    n = cyl.normal_at(tuple::point(0.5, 2, 0));
+    assert(n == tuple::vec(0, 1, 0));
+
+    n = cyl.normal_at(tuple::point(0, 2, 0.5));
+    assert(n == tuple::vec(0, 1, 0));
 }
