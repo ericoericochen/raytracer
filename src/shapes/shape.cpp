@@ -23,17 +23,11 @@ std::vector<Intersection> Shape::local_intersects(Ray &local_ray)
 
 Tuple Shape::normal_at(const Tuple &world_point) const
 {
-    // convert point to object space
-    auto inv_transform = this->transform.inverse();
-    auto local_point = inv_transform * world_point;
-
-    // get local normal
+    auto local_point = this->world_to_object(world_point);
     auto local_normal = this->local_normal_at(local_point);
-    auto world_normal = inv_transform.T() * local_normal;
-    world_normal.w = 0;
-    auto normal = world_normal.normalize();
+    auto world_normal = this->normal_to_world(local_normal);
 
-    return normal;
+    return world_normal;
 }
 
 Tuple Shape::local_normal_at(const Tuple &world_point) const
@@ -47,4 +41,40 @@ Color Shape::pattern_at(const Tuple &world_point) const
     auto pattern_point = this->material.pattern->transform.inverse() * object_point;
 
     return this->material.pattern->pattern_at(pattern_point);
+}
+
+Tuple Shape::world_to_object(const Tuple &point) const
+{
+    Tuple object_point;
+
+    if (this->parent != nullptr)
+    {
+        object_point = this->parent->world_to_object(point); // convert point to object space of parent
+    }
+    else
+    {
+        object_point = point;
+    }
+
+    // convert point from object space of parent to object space of this object
+    return this->transform.inverse() * object_point;
+}
+
+Tuple Shape::normal_to_world(const Tuple &normal) const
+{
+    auto object_normal = this->transform.inverse().T() * normal;
+    object_normal.w = 0;
+    auto object_normal_norm = object_normal.normalize();
+
+    Tuple world_normal;
+    if (this->parent != nullptr)
+    {
+        world_normal = this->parent->normal_to_world(object_normal_norm);
+    }
+    else
+    {
+        world_normal = object_normal_norm;
+    }
+
+    return world_normal;
 }

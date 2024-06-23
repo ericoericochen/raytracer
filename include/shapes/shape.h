@@ -11,6 +11,7 @@
 class Shape
 {
 public:
+    Shape *parent = nullptr;
     Matrix transform = transforms::eye();
     Material material = Material();
     Ray saved_ray = Ray(tuple::point(0, 0, 0), tuple::vec(0, 0, 0));
@@ -25,6 +26,8 @@ public:
     virtual Tuple local_normal_at(const Tuple &local_point) const;
 
     Color pattern_at(const Tuple &world_point) const;
+    Tuple world_to_object(const Tuple &point) const;
+    Tuple normal_to_world(const Tuple &normal) const;
 };
 
 #endif
