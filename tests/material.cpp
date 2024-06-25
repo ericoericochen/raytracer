@@ -7,6 +7,7 @@
 #include "../include/patterns/stripe.h"
 #include "../include/shapes/shape.h"
 #include "../include/shapes/sphere.h"
+#include "../include/prepared_computation.h"
 
 int main()
 {
@@ -93,4 +94,38 @@ int main()
     // Glassy sphere
     auto s2 = glass_sphere();
     assert(s2.material.transparency == 1.0 && s2.material.refractive_index == 1.5);
+
+    // Finding n1 and n2 at various intersections
+    auto a = glass_sphere();
+    a.transform = transforms::scaling(2, 2, 2);
+    a.material.refractive_index = 1.5;
+
+    auto b = glass_sphere();
+    b.transform = transforms::translation(0, 0, -0.25);
+    b.material.refractive_index = 2.0;
+
+    auto c = glass_sphere();
+    c.transform = transforms::translation(0, 0, 0.25);
+    c.material.refractive_index = 2.5;
+
+    auto r = Ray(tuple::point(0, 0, -4), tuple::vec(0, 0, 1));
+    std::vector<Intersection> xs = {Intersection(&a, 2), Intersection(&b, 2.75), Intersection(&c, 3.25), Intersection(&b, 4.75), Intersection(&c, 5.25), Intersection(&a, 6)};
+
+    auto comps = prepare_computation(xs[0], r, xs);
+    assert(comps.n1 == 1.0 && comps.n2 == 1.5);
+
+    comps = prepare_computation(xs[1], r, xs);
+    assert(comps.n1 == 1.5 && comps.n2 == 2.0);
+
+    comps = prepare_computation(xs[2], r, xs);
+    assert(comps.n1 == 2.0 && comps.n2 == 2.5);
+
+    comps = prepare_computation(xs[3], r, xs);
+    assert(comps.n1 == 2.5 && comps.n2 == 2.5);
+
+    comps = prepare_computation(xs[4], r, xs);
+    assert(comps.n1 == 2.5 && comps.n2 == 1.5);
+
+    comps = prepare_computation(xs[5], r, xs);
+    assert(comps.n1 == 1.5 && comps.n2 == 1.0);
 }

@@ -69,7 +69,10 @@ Color World::shade_hit(PreparedComputation &comps, int remaining)
     // get reflected color
     auto reflected = this->reflected_color(comps, remaining);
 
-    return surface + reflected;
+    // get refracted color
+    auto refracted = this->refracted_color(comps, remaining);
+
+    return surface + reflected + refracted;
 }
 
 Color World::color_at(Ray &ray, int remaining)
@@ -145,4 +148,27 @@ Color World::reflected_color(PreparedComputation &comps, int remaining)
     auto color = this->color_at(reflected_ray, remaining - 1) * reflective;
 
     return color;
+}
+
+Color World::refracted_color(PreparedComputation &comps, int remaining)
+{
+    if (comps.object->material.transparency == 0 || remaining < 1)
+    {
+        return Color(0, 0, 0);
+    }
+
+    auto n_ratio = comps.n1 / comps.n2;
+    auto theta = comps.eyev.dot(comps.normalv);
+    auto sin2_t = n_ratio * n_ratio * (1 - theta * theta);
+
+    if (sin2_t > 1)
+    {
+        return Color(0, 0, 0);
+    }
+
+    auto cos_t = sqrt(1.0 - sin2_t);
+    auto direction = comps.normalv * (n_ratio * theta - cos_t) - comps.eyev * n_ratio;
+    auto refracted_ray = Ray(comps.under_point, direction);
+
+    return this->color_at(refracted_ray, remaining - 1) * comps.object->material.transparency;
 }

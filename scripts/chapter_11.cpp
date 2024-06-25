@@ -3,6 +3,7 @@
 #include "../include/world.h"
 #include "../include/shapes/sphere.h"
 #include "../include/shapes/shape.h"
+#include "../include/patterns/checker.h"
 #include "../include/shapes/plane.h"
 #include "../include/matrix.h"
 #include "../include/color.h"
@@ -12,35 +13,21 @@
 
 int main()
 {
-    Plane floor = Plane();
-    floor.material.reflective = 0.8;
+    auto w = World();
+    auto floor = Plane();
+    floor.transform = transforms::translation(0, -1, 0);
+    floor.material.pattern = new Checker(Color(1, 1, 1), Color(0, 0, 0));
+    // floor.material.transparency = 0.5;
+    // floor.material.refractive_index = 1.5;
 
-    Sphere middle = Sphere();
-    middle.transform = matrix::translation(-0.5, 1, 0.5);
-    middle.material.color = Color(0.1, 1, 0.5);
-    middle.material.diffuse = 0.7;
-    middle.material.specular = 0.3;
-
-    Sphere right = Sphere();
-    right.transform = matrix::translation(1.5, 0.5, -0.5) * matrix::scaling(0.5, 0.5, 0.5);
-    right.material.color = Color(0.5, 1, 0.1);
-    right.material.diffuse = 0.7;
-    right.material.specular = 0.3;
-
-    Sphere left = Sphere();
-    left.transform = matrix::translation(-1.5, 0.33, -0.75) * matrix::scaling(0.33, 0.33, 0.33);
-    left.material.color = Color(1, 0.8, 0.1);
-    left.material.diffuse = 0.7;
-    left.material.specular = 0.3;
-
-    World world = World();
-    world.light = light::point_light(tuple::point(-10, 10, -10), Color(1, 1, 1));
-
-    world.objects = std::vector<Shape *>{
-        &floor,
-        &middle,
-        &left,
-        &right};
+    auto ball = Sphere();
+    ball.material.color = Color(0, 0, 0);
+    ball.material.ambient = 0.0;
+    ball.material.transparency = 0.8;
+    ball.material.refractive_index = 1.5;
+    ball.material.reflective = 0.7;
+    ball.transform = matrix::translation(-0.5, 1, 0.5);
+    w.objects = {&floor, &ball};
 
     // Camera camera = Camera(100, 50, M_PI / 3);
     Camera camera = Camera(500, 250, M_PI / 3);
@@ -51,6 +38,6 @@ int main()
                                               to,
                                               up);
 
-    auto image = world.render(camera);
+    auto image = w.render(camera);
     std::cout << image.to_ppm() << std::endl;
 }

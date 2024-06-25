@@ -79,4 +79,14 @@ int main()
     comps = prepare_computation(i, r);
 
     assert(comps.reflectv == tuple::vec(0, sqrt(2) / 2, sqrt(2) / 2));
+
+    //  The under point is offset below the surface
+    r = Ray(tuple::point(0, 0, -5), tuple::vec(0, 0, 1));
+    shape = glass_sphere();
+    shape.transform = matrix::translation(0, 0, 1);
+    i = Intersection(&shape, 5);
+    xs = {Intersection(&shape, 4), i};
+    comps = prepare_computation(i, r, xs);
+
+    assert(comps.under_point.z > EPSILON / 2 && comps.point.z < comps.under_point.z);
 }

@@ -28,6 +28,7 @@ public:
     Canvas render(Camera &camera);
     bool is_shadowed(Tuple &point);
     Color reflected_color(PreparedComputation &comps, int remaining = DEFAULT_REMAINING);
+    Color refracted_color(PreparedComputation &comps, int remaining = DEFAULT_REMAINING);
 };
 
 #endif
